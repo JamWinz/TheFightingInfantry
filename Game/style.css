@@ -110,13 +110,16 @@ body {
  #menu {
    margin-top: -15px;
    margin-left: -15px;
-   font: arial;
-   border: solid 3px darkgreen;
+   font: serif;
+   border: solid 3px black;
    box-shadow: 9px 6px 6px;
-   border-radius: 5%;
+   border-radius: 10%;
+   background-color: white;
  }
 
+
  #backgroundSelect h2 {
+   color: black;
    margin-left: -10px;
  }
 
@@ -142,6 +145,7 @@ body {
    position: relative;
    text-align: center;
    /*background-color: #FAF0E6;*/
+   font-size: 50px;
    background: lightgreen; /* fallback for old browsers */
    border: solid 3px black;
  }
@@ -150,9 +154,9 @@ body {
    position: relative;
    text-align: center;
    /*background-color: #FAF0E6;*/
-   background: grey; /* fallback for old browsers */
+   font-size: 60px;
+   background: orange; /* fallback for old browsers */
    border: solid 3px black;
-
  }
 
  #level {
@@ -160,17 +164,18 @@ body {
    position: relative;
    text-align: center;
    /*background-color: #FAF0E6;*/
-   background: red; /* fallback for old browsers */
+   background: lightblue; /* fallback for old browsers */
    border: solid 3px black;
  }
 
  .boxTitle{
    font-size: 20px;
-   font-family: arial;
-   margin-left: 90px;
+   font-family: sans-serif;
+   margin-left: 95px;
    float: top;
    padding: 0px;
    font-weight: bold;
+   color: black;
  }
 
  .box {
@@ -184,7 +189,7 @@ body {
 
  table {
     position: absolute;
-    background-image: url("image1.jpg");
+    /*background-image: url("image1.jpg");*/
     background-size: 100% 100%;
     border-collapse: collapse;
     margin-top: 0px;
@@ -214,12 +219,12 @@ body {
    background-color: green;
    margin-left: 50px;
    float: left;
-   font-size: 35px;
+   font-size: 25px;
    color: black;
    border-radius: 50%;
    font-weight: bold;
-   border: solid 3px black;
-   box-shadow: 6px 5px 10px;
+   border: solid 5px black;
+   box-shadow: 6px 5px 30px;
  }
 
  #endGif {

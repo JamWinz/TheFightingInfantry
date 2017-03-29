@@ -4,7 +4,7 @@ var game = (function() {
   var count = 0;//FOR SCORE
   var fallSpeed = 500;
   var enemySpeed = 500;
-  var currentPower;
+  var currentPower, powerName;
 
 
             function createGrid(nrow, ncol) {
@@ -86,27 +86,17 @@ var game = (function() {
             function findPowerUp(row, col){
               if(grid[activerow+row][activecol+col] === 1){
                 currentPower = '&#9973;';
-                console.log("There is a " + currentPower + " in front of you!");
+                powerName = "Boat";
+                //console.log("There is a " + currentPower + " in front of you!");
                 count++;
 
               }
               else if(grid[activerow+row][activecol+col] === 2){
                 currentPower = '&#9889;';
-                console.log("There is a " + currentPower + " in front of you!");
+                powerName = "Lightning";
+                //console.log("There is a " + currentPower + " in front of you!");
                 count++;
               }
-
-
-              /*if(grid[activerow][activecol] === 1){
-
-                //currentPower = $('#powerUpBox').addClass('player').html('&#9973;');
-                console.log("There is a " + currentPower + " in front of you!")
-              }
-              else if(grid[activerow][activecol] === 2){
-
-                //currentPower = $('#powerUpBox').addClass('player').html('&#9889;');
-                console.log("There is a " + currentPower + " in front of you!")
-              }*/
             }
 
             function moveLeft() {
@@ -115,7 +105,8 @@ var game = (function() {
                 grid[activerow][activecol] = null;
                 activecol--;
                 grid[activerow][activecol] = 0;
-                console.log(activecol)
+                //console.log(activecol)
+                console.log(powerName + " THIS IS CURRENT POWER");
                 notify();
               }
             }
@@ -126,9 +117,9 @@ var game = (function() {
                 grid[activerow][activecol] = null;
                 activecol++;
                 grid[activerow][activecol] = 0;
-                console.log(activecol)
+                //console.log(activecol)
                 //$('#powerUpBox').addClass('player').html(currentPower);
-                console.log(currentPower + " THIS IS CURRENT POWERRRRRRRRRRRRRR");
+                console.log(powerName + " THIS IS CURRENT POWER");
                 notify();
               }
             }
@@ -139,9 +130,9 @@ var game = (function() {
                 grid[activerow][activecol] = null;
                 activerow++;
                 grid[activerow][activecol] = 0;
-                console.log(activerow);
+                //console.log(activerow);
                 //$('#powerUpBox').addClass('player').html(currentPower);
-                console.log(currentPower + " THIS IS CURRENT POWERRRRRRRRRRRRRR");
+                console.log(powerName + " THIS IS CURRENT POWER");
                 notify();
               }
             }
@@ -152,9 +143,9 @@ var game = (function() {
                 grid[activerow][activecol] = null;
                 activerow--;
                 grid[activerow][activecol] = 0;
-                console.log(activerow)
+                //console.log(activerow)
                 //$('#powerUpBox').addClass('player').html(currentPower);
-                console.log(currentPower + " THIS IS CURRENT POWERRRRRRRRRRRRRR");
+                console.log(powerName + " THIS IS CURRENT POWER");
                 notify();
               }
             }
@@ -249,7 +240,6 @@ var game = (function() {
 
                 //createBlock(0, 4); FOR ENEMY MOVEMENT
                 }
-
                   notify();
                 //Clear a complete row
                 clearRow();
@@ -289,15 +279,13 @@ var game = (function() {
 
               // we reached the bottom
               clearInterval(enemyInterval);
-              if (enemyrow !== 14) {
+              if (enemyrow !== 16) {
                 // Increase fallspeed based on these conditions
-                if(fallSpeed > 50 && (count % 5 === 0) && count !== 0) {
-                  fallSpeed -= 25;
-                }
-                count-=1;
-                console.log(enemyrow)
-                createEnemy(14, 5);
-                console.log("Enemy speed is " + enemySpeed)
+                  fallSpeed = 10000000000;
+                  count-=1;
+                  console.log(enemyrow)
+                  createEnemy(14, 5);
+                  console.log("Enemy speed is " + enemySpeed)
               }
               else{
                 //$('#gameover').text("GAME OVER");
@@ -329,11 +317,7 @@ var game = (function() {
                     grid[enemyrow][enemycol] = 0;
                 }
               }
-
-              notify();
             }
-
-
         }, enemySpeed);
     }
 

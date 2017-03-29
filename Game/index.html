@@ -58,10 +58,20 @@
 
       // Hover button color
       $("#button").mouseover(function() {
+        if(startButton % 2 === 0 || startButton === 0){
         $(this).css("background-color", "darkgreen");
+      }
+      else{
+        $(this).css("background-color", "red");
+      }
       });
       $("#button").mouseout(function() {
-        $(this).css("background-color", "");
+        if(startButton % 2 === 0 || startButton === 0){
+          $(this).css("background-color", "green");
+        }
+        else{
+          $(this).css("background-color", "crimson");
+        }
       });
 
       //var player1 = true;
@@ -71,6 +81,7 @@
 
         if(startButton === 0){
         $('#button').text("Pause");
+        $('#button').css("background-color", "darkred");
         $("#backgroundSelect").css("display", "none");
         $("#startScreen").css("display", "none");
         game.startGame(); //Make sure there is a mute button too!
@@ -78,7 +89,8 @@
         console.log("GAME STARTED");
       }
       else if(startButton % 2 !== 0){
-        $('#button').text("Start");
+        $('#button').text("Resume");
+        $('#button').css("background-color", "green");
         game.setEnemySpeed(10000000000);
         game.getEnemySpeed(10000000000);
         startButton++;
@@ -87,6 +99,9 @@
     }
       else{
         $('#button').text("Pause");
+        $('#button').css("background-color", "red");
+        game.setEnemySpeed(500);
+        game.getEnemySpeed(500);
         console.log("Game already in progress.");
         startButton++;
       }
@@ -156,6 +171,25 @@
           //console.log("I " + i)
 
     });
+
+    function changedBackground(bgr) {
+      if (bgr === 1) {
+        $("table").css("background-image", "url('image1.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 2) {
+        $("table").css("background-image", "url('image.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 3) {
+        $("table").css("background-image", "url('image3.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 4) {
+        $("table").css("background-image", "url('image4.jpg')");
+        console.log("Changed Image");
+      }
+    }
     </script>
   </head>
   <body>
@@ -181,7 +215,7 @@
   </div>
 
     <div id="gameBorder">
-    <table id="grd" style="z-index:1">
+    <table id="grd" style="z-index:1" background="image1.jpg">
     </table>
   </div>
   <div id="levelTitle" class="boxTitle">Level:</div>
@@ -195,11 +229,11 @@
   <div id="backgroundSelect">
   <h2>Background:</h2>
   <ul style="width:130px;" id="menu">
-  	<li><div>Image 1</div></li>
-  	<li><div>Image 2</div></li>
-  	<li><div>Image 3</div></li>
-  	<li><div>Image 4</div></li>
-  	<li><div>Image 5</div>
+  	<li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
+  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
+  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
+  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
+  	<li><div>Custom:</div>
       <ul>
         <li><div>Choose Image</div></li>
       </ul>
