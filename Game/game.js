@@ -4,6 +4,7 @@ var game = (function() {
   var count = 0;//FOR SCORE
   var fallSpeed = 500;
   var enemySpeed = 500;
+  var health = 100;
   var currentPower, powerName;
 
 
@@ -57,12 +58,13 @@ var game = (function() {
               }
             }
 
-            function randomPiece() {
-              var rng = Math.floor(Math.random() * 10);
+            function randomPiece(num) {
+              var rng = Math.floor(Math.random() * num);
 
               return rng;
             }
 
+            // Enemy Speed
             function setEnemySpeed(enemySpeed2) {
               enemySpeed = enemySpeed2;
             }
@@ -70,6 +72,16 @@ var game = (function() {
             function getEnemySpeed(){
               return enemySpeed;
             }
+
+            // Health Bar
+            function setHealthBar(health2) {
+              health = health2;
+            }
+
+            function getHealthBar(){
+              return health;
+            }
+
 
             var activerow = null;
             var activecol = null;
@@ -88,12 +100,24 @@ var game = (function() {
                 currentPower = '&#9973;';
                 powerName = "Boat";
                 //console.log("There is a " + currentPower + " in front of you!");
+
+                // This code jumps player 3 blocks
+                /*
+                console.log("You board the boat, you sail forward 2 tiles.")
+                grid[activerow][activecol] = null;
+                activerow = activerow + 3;
+                grid[activerow][activecol] = 0;
+                */
+
                 count++;
 
               }
               else if(grid[activerow+row][activecol+col] === 2){
                 currentPower = '&#9889;';
                 powerName = "Lightning";
+                health = (health - 5);
+                console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
+
                 //console.log("There is a " + currentPower + " in front of you!");
                 count++;
               }
@@ -133,6 +157,7 @@ var game = (function() {
                 //console.log(activerow);
                 //$('#powerUpBox').addClass('player').html(currentPower);
                 console.log(powerName + " THIS IS CURRENT POWER");
+
                 notify();
               }
             }
@@ -216,7 +241,7 @@ var game = (function() {
 
               for(var i = 0; i < 15; i++) {
                 for(var j = 0; j < 10; j++) {
-                  rng = randomPiece();
+                  rng = randomPiece(10);
                   if(!grid[i][j]){
                     grid[i][j] = rngArr[rng];
                     console.log("Filled tile");
@@ -351,7 +376,9 @@ var game = (function() {
               updateScore: updateScore,
               createGrid: createGrid,
               setEnemySpeed: setEnemySpeed,
-              getEnemySpeed: getEnemySpeed
+              getEnemySpeed: getEnemySpeed,
+              setHealthBar: setHealthBar,
+              getHealthBar: getHealthBar
             };
 
 })();
