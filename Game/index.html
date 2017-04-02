@@ -93,6 +93,7 @@
 
     // Game over
     else {
+      $("#endScreen").css("display", "block"),
       $( "#progressbar" ).progressbar({
         value: health,
         change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}

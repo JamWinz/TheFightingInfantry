@@ -115,7 +115,7 @@ var game = (function() {
               else if(grid[activerow+row][activecol+col] === 2){
                 currentPower = '&#9889;';
                 powerName = "Lightning";
-                health = (health - 5);
+                health = (health - 15);
                 console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
 
                 //console.log("There is a " + currentPower + " in front of you!");
