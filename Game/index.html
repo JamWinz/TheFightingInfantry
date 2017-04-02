@@ -6,16 +6,17 @@
     <script src="jquery-ui.js"></script>
     <script src="d3.min.js"></script>
     <link href="jquery-ui.css" rel="stylesheet">
-    <title style="text-align:center">Trial Game</title>
+    <title style="text-align:center">The Fighting Infrantry</title>
 
     <script src="game.js"></script>
     <script>
     $(function() {
       var startButton = 0;
+      var health = game.getHealthBar();
 
       $("#endScreen").css("display", "none");
       $("#gameOverButton").click(function() {
-        $("#endScreen").css("display", "block");
+      $("#endScreen").css("display", "block");
       });
       //Select Background Menu
       $("#menu").menu();
@@ -29,14 +30,18 @@
       $("body").keydown(function(e) {
         if(e.keyCode == 37) { // left
           game.moveLeft();
+          currentHealth(game.getHealthBar());
         }
         else if(e.keyCode == 39) { // right
+          currentHealth(game.getHealthBar());
           game.moveRight();
         }
         else if(e.keyCode == 40){ // down
           game.moveDown();
+          currentHealth(game.getHealthBar());
         }
         else if(e.keyCode == 38){ // up
+          currentHealth(game.getHealthBar());
           game.moveUp();
         }
         else if(e.keyCode == 36){ // diagleftUp
@@ -55,6 +60,49 @@
           game.autoComplete();
         }
       });
+
+      // HEALTH
+      function currentHealth(health){
+        if(health > 75 && health <= 100){
+        $( "#progressbar" ).progressbar({
+          value: health,
+          create: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
+        }).height(25).width(200);
+      }
+
+      else if(health > 50 && health <= 75){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'lightgreen'})}
+      }).height(25).width(200);
+    }
+
+      else if(health > 25 && health <= 50){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'orange'})}
+      }).height(25).width(200);
+    }
+
+      else if(health > 0 && health <= 25){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
+      }).height(25).width(200);
+    }
+
+    // Game over
+    else {
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
+      }).height(25).width(200);
+    }
+  }
+
+
+
+
 
       // Hover button color
       $("#button").mouseover(function() {
@@ -80,6 +128,7 @@
 
 
         if(startButton === 0){
+        currentHealth(health);
         $('#button').text("Pause");
         $('#button').css("background-color", "darkred");
         $("#backgroundSelect").css("display", "none");
@@ -133,7 +182,7 @@
             }
 
             // Player
-            if(grid[r][c] === 0) {
+              if(grid[r][c] === 0) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
               chr = "&#9977;";
             }
@@ -189,7 +238,33 @@
         $("table").css("background-image", "url('image4.jpg')");
         console.log("Changed Image");
       }
+      else if (bgr === 5) {
+        $("#imgInp").change(function(){
+            readURL(this);
+        });
+        $("table").css("background-image", 'imgInp');
+        console.log("Changed Image " + imgInp.toString());
+      }
     }
+
+
+    // Custom Image
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#imgInp").change(function(){
+    readURL(this);
+});
+
     </script>
   </head>
   <body>
@@ -218,6 +293,9 @@
     <table id="grd" style="z-index:1" background="image1.jpg">
     </table>
   </div>
+  <!-- Progressbar -->
+  <div id="healthTitle" class="boxTitle">Health:</div>
+  <div id="progressbar" class="box"></div>
   <div id="levelTitle" class="boxTitle">Level:</div>
   <div id="level" style="height:70px;width:70px" class="box"></div>
   <div id="ScoreTitle" class="boxTitle">Score:</div>
@@ -231,11 +309,12 @@
   <ul style="width:130px;" id="menu">
   	<li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
   	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
-  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
-  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
+  	<li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
+  	<li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
   	<li><div>Custom:</div>
       <ul>
-        <li><div>Choose Image</div></li>
+        <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
+        <li><input type='file' id="imgInp" /><br>Use This Image</li>
       </ul>
     </li>
   </ul>
