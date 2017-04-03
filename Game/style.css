@@ -1,6 +1,7 @@
 
 body {
-  background-color: grey;
+  background-image: url("digital_camo.jpg");
+  /*background-color: grey; */
 }
 
  td, th, td {
@@ -12,8 +13,8 @@ body {
    display: inline-block;
    /*background-color: white;*/
    /*border: solid 2px lightgrey; /* CELL BORDER */
-   width: 30px;
-   height: 30px;
+   width: 35px;
+   height: 35px;
    float: left;
    color: black;
  }
@@ -24,7 +25,7 @@ body {
  }
 
  #endgameOverlay {
-     color: green;
+     color: red;
      text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px green, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px green;
      letter-spacing: 5px;
      font: 45px 'MisoRegular';
@@ -135,7 +136,7 @@ body {
  }
 
 #title {
-  color: darkgreen;
+  color: darkred;
   font-size: 50px;
   text-align: center;
   margin-top: 0px;
