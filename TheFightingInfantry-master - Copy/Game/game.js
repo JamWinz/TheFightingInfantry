@@ -3,9 +3,21 @@ var game = (function() {
   console.log("Initilizing game.js");
   var count = 0;//FOR SCORE
   var fallSpeed = 500;
-  var enemySpeed = 500;
+  var enemySpeed = 500000000;
   var health = 100;
   var currentPower, powerName;
+
+function testHealth(then, expected) {
+  var str;
+  if (expected===(then-15)) {
+    str="Health is working correctly" + then + " health is now " + health;
+  }
+  else {
+    str="Health is not working correctly health was " + then + " health is now " + health;
+  }
+  console.log(str);
+  return str;
+}
 
 
             function createGrid(nrow, ncol) {
@@ -117,7 +129,7 @@ var game = (function() {
                 powerName = "Lightning";
                 health = (health - 15);
                 console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
-
+                testHealth(100, 85);
                 //console.log("There is a " + currentPower + " in front of you!");
                 count++;
               }
@@ -309,7 +321,7 @@ var game = (function() {
                   fallSpeed = 10000000000;
                   count-=1;
                   console.log(enemyrow)
-                  createEnemy(14, 5);
+
                   console.log("Enemy speed is " + enemySpeed)
               }
               else{
