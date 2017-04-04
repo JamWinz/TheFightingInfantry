@@ -185,7 +185,7 @@
             // Player
               if(grid[r][c] === 0) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
-              chr = "&#9977;";
+              chr = "images/Bob_front.png"
             }
             else if(grid[r][c] === 1) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
@@ -200,7 +200,7 @@
               chr = "&#9889;";
             }
 
-            $("#grd").append("<td>" + chr + "</td>")
+            $("#grd").append("<td>" + "<img src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
         }
