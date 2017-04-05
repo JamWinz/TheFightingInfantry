@@ -166,31 +166,36 @@
         $("#grd").empty();
         var nrow = grid.length;
         var ncol = grid[0].length;
+        var currimg = "<td>" + "<img src='" + chr + "'>" + "</td>";
+
 
         for(var r = 0; r < nrow; r++) {
           $("#grd").append("<tr>")
           for(var c = 0; c < ncol; c++) {
 
             var chr = "";
+            var imgid = "";
 
-            var rdigit = ""+r;
-            var cdigit = ""+c;
+            var rdigit = "" + r;
+            var cdigit = "" + c;
             if (rdigit.length === 1) {
-              rdigit = "0"+rdigit;
+              rdigit = "0" + rdigit;
             }
             if (cdigit.length === 1) {
-              cdigit = "0"+cdigit;
+              cdigit = "0" + cdigit;
             }
 
             // Player
               if(grid[r][c] === 0) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
-              chr = "images/Bob_front.png"
+              chr = "images/Bob_front.png";
+              imgid = "bobimg";
             }
             else if(grid[r][c] === 1) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
               //console.log("Boat");
               chr = "&#9973;";
+              imgid = "";
 
             }
             else if(grid[r][c] === 2) {
@@ -198,9 +203,10 @@
               //$('#powerUpBox').html('&#9973;');
               //console.log("Light");
               chr = "&#9889;";
+              imgid = "";
             }
 
-            $("#grd").append("<td>" + "<img src='" + chr + "'>" + "</td>")
+            $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
         }
