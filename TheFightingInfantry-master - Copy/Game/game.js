@@ -128,7 +128,7 @@ function testHealth(then, expected) {
                 currentPower = '&#9889;';
                 powerName = "Lightning";
                 health = (health - 15);
-                console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
+                console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
                 testHealth(100, 85);
                 //console.log("There is a " + currentPower + " in front of you!");
                 count++;

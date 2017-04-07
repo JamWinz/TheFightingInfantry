@@ -13,7 +13,7 @@
     $(function() {
       var startButton = 0;
       var health = game.getHealthBar();
-
+      $("#startScreen").css("display", "none");
       $("#endScreen").css("display", "none");
       $("#gameOverButton").click(function() {
       $("#endScreen").css("display", "block");
@@ -102,6 +102,18 @@
   }
 
 
+  // UNIT TEST
+  game.startGame();
+  function moveDownTest(){
+    game.moveDown();
+    currentHealth(game.getHealthBar());
+}
+
+setInterval(function() {
+moveDownTest();
+}, 1000);
+
+
 
 
 
@@ -123,10 +135,10 @@
         }
       });
 
+
       //var player1 = true;
       $("#button").click(function() {
         //Controller for playing a move
-
 
         if(startButton === 0){
         currentHealth(health);
