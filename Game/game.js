@@ -97,7 +97,7 @@ var game = (function() {
 
             function findPowerUp(row, col){
               if(grid[activerow+row][activecol+col] === 1){
-                currentPower = '&#9973;';
+                currentPower = 'images/helicopter.png';
                 powerName = "Boat";
                 //console.log("There is a " + currentPower + " in front of you!");
 
@@ -113,7 +113,7 @@ var game = (function() {
 
               }
               else if(grid[activerow+row][activecol+col] === 2){
-                currentPower = '&#9889;';
+                currentPower = 'images/explosion.png';
                 powerName = "Lightning";
                 health = (health - 15);
                 console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)

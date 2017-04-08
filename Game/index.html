@@ -194,16 +194,16 @@
             else if(grid[r][c] === 1) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
               //console.log("Boat");
-              chr = "&#9973;";
-              imgid = "";
+              chr = "images/helicopter.png";
+              imgid = "powerup";
 
             }
             else if(grid[r][c] === 2) {
               //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
               //$('#powerUpBox').html('&#9973;');
               //console.log("Light");
-              chr = "&#9889;";
-              imgid = "";
+              chr = "images/explosion.png";
+              imgid = "powerdown";
             }
 
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")

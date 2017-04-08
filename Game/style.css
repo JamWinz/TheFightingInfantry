@@ -4,6 +4,31 @@
 }
 
 
+.bobimgleft {
+  width: 400%;
+  height: 70%;
+}
+
+.powerup {
+  width: 50%;
+  height: 70%;
+}
+
+.powerdown {
+  width: 50%;
+  height: 70%;
+}
+
+.powerdown {
+  width: 80%;
+  height: 80%;
+  }
+
+.powerup {
+  width: 70%;
+  height: 100%;
+}
+
 body {
   background-image: url("digital_camo.jpg");
   /*background-color: grey; */
