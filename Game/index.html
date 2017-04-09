@@ -1,69 +1,66 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="jquery-3.1.1.min.js"></script>
-    <script src="jquery-ui.js"></script>
-    <script src="d3.min.js"></script>
-    <link href="jquery-ui.css" rel="stylesheet">
-    <title style="text-align:center">The Fighting Infrantry</title>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="jquery-3.1.1.min.js"></script>
+  <script src="jquery-ui.js"></script>
+  <script src="d3.min.js"></script>
+  <link href="jquery-ui.css" rel="stylesheet">
+  <title style="text-align:center">The Fighting Infrantry</title>
 
-    <script src="game.js"></script>
-    <script>
-    $(function() {
-      var startButton = 0;
-      var health = game.getHealthBar();
+  <script src="game.js"></script>
+  <script>
+  $(function() {
+    var startButton = 0;
+    var health = game.getHealthBar();
 
-      $("#endScreen").css("display", "none");
-      $("#gameOverButton").click(function() {
+    $("#endScreen").css("display", "none");
+    $("#gameOverButton").click(function() {
       $("#endScreen").css("display", "block");
-      });
-      //Select Background Menu
-      $("#menu").menu();
+    });
+    //Select Background Menu
+    $("#menu").menu();
 
-      // Grid Size
-      game.createGrid(15, 10);
+    // Grid Size
+    game.createGrid(15, 10);
 
-      var activeid = null;
+    var activeid = null;
 
-      // Key movements
-      $("body").keydown(function(e) {
-        if(e.keyCode == 37) { // left
-          game.moveLeft();
-          currentHealth(game.getHealthBar());
-        }
-        else if(e.keyCode == 39) { // right
-          currentHealth(game.getHealthBar());
-          game.moveRight();
-        }
-        else if(e.keyCode == 40){ // down
-          game.moveDown();
-          currentHealth(game.getHealthBar());
-        }
-        else if(e.keyCode == 38){ // up
-          currentHealth(game.getHealthBar());
-          game.moveUp();
-        }
-        else if(e.keyCode == 36){ // diagleftUp
-          game.moveDiagLeftUp();
-        }
-        else if(e.keyCode == 33){ // diagrightUp
-          game.moveDiagRightUp();
-        }
-        else if(e.keyCode == 35){ // diagleftdown
-          game.moveDiagLeftDown();
-        }
-        else if(e.keyCode == 34){ // diagrightdown
-          game.moveDiagRightDown();
-        }
-        else if(e.keyCode == 88){ // auto complete grid
-          game.autoComplete();
-        }
-      });
+    var moveTimeOut;
+    // Key movements ( KEY DOWN )
+    $("body").keydown(function(e) {
+      if(e.keyCode == 37) { // left
+        game.moveLeft();
+      }
+      else if(e.keyCode == 39) { // right
+        game.moveRight();
+      }
+      else if(e.keyCode == 40){ // down
+        game.moveDown();
+      }
+      else if(e.keyCode == 38){ // up
+        game.moveUp();
+      }
+      else if(e.keyCode == 36){ // diagleftUp
+        game.moveDiagLeftUp();
+      }
+      else if(e.keyCode == 33){ // diagrightUp
+        game.moveDiagRightUp();
+      }
+      else if(e.keyCode == 35){ // diagleftdown
+        game.moveDiagLeftDown();
+      }
+      else if(e.keyCode == 34){ // diagrightdown
+        game.moveDiagRightDown();
+      }
+      else if(e.keyCode == 88){ // auto complete grid
+        game.autoComplete();
+      }
+    });
 
-      // HEALTH
-      function currentHealth(health){
-        if(health > 75 && health <= 100){
+    // HEALTH
+    function currentHealth(health){
+      if(health > 75 && health <= 100){
         $( "#progressbar" ).progressbar({
           value: health,
           create: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
@@ -71,64 +68,64 @@
       }
 
       else if(health > 50 && health <= 75){
-      $( "#progressbar" ).progressbar({
-        value: health,
-        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'lightgreen'})}
-      }).height(25).width(200);
-    }
+        $( "#progressbar" ).progressbar({
+          value: health,
+          change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'lightgreen'})}
+        }).height(25).width(200);
+      }
 
       else if(health > 25 && health <= 50){
-      $( "#progressbar" ).progressbar({
-        value: health,
-        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'orange'})}
-      }).height(25).width(200);
-    }
+        $( "#progressbar" ).progressbar({
+          value: health,
+          change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'orange'})}
+        }).height(25).width(200);
+      }
 
       else if(health > 0 && health <= 25){
-      $( "#progressbar" ).progressbar({
-        value: health,
-        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
-      }).height(25).width(200);
+        $( "#progressbar" ).progressbar({
+          value: health,
+          change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
+        }).height(25).width(200);
+      }
+
+      // Game over
+      else {
+        $("#endScreen").css("display", "block"),
+        $( "#progressbar" ).progressbar({
+          value: health,
+          change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
+        }).height(25).width(200);
+      }
     }
 
-    // Game over
-    else {
-      $("#endScreen").css("display", "block"),
-      $( "#progressbar" ).progressbar({
-        value: health,
-        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
-      }).height(25).width(200);
-    }
-  }
 
 
 
 
-
-      // Hover button color
-      $("#button").mouseover(function() {
-        if(startButton % 2 === 0 || startButton === 0){
+    // Hover button color
+    $("#button").mouseover(function() {
+      if(startButton % 2 === 0 || startButton === 0){
         $(this).css("background-color", "darkgreen");
       }
       else{
         $(this).css("background-color", "red");
       }
-      });
-      $("#button").mouseout(function() {
-        if(startButton % 2 === 0 || startButton === 0){
-          $(this).css("background-color", "green");
-        }
-        else{
-          $(this).css("background-color", "crimson");
-        }
-      });
+    });
+    $("#button").mouseout(function() {
+      if(startButton % 2 === 0 || startButton === 0){
+        $(this).css("background-color", "green");
+      }
+      else{
+        $(this).css("background-color", "crimson");
+      }
+    });
 
-      //var player1 = true;
-      $("#button").click(function() {
-        //Controller for playing a move
+    //var player1 = true;
+    $("#button").click(function() {
+      //Controller for playing a move
 
 
-        if(startButton === 0){
+      if(startButton === 0){
         currentHealth(health);
         $('#button').text("Pause");
         $('#button').css("background-color", "darkred");
@@ -146,7 +143,7 @@
         startButton++;
         console.log("Game is now paused.");
 
-    }
+      }
       else{
         $('#button').text("Pause");
         $('#button').css("background-color", "red");
@@ -155,181 +152,183 @@
         console.log("Game already in progress.");
         startButton++;
       }
-      });
+    });
 
-      game.addListener(function(grid, score, currentPower) {
-        $("#score").html(score);
+    game.addListener(function(grid, score, currentPower) {
+      // Updates Scores
+      $("#score").html(score);
+      // Updates Health
+      currentHealth(game.getHealthBar());
+      //console.log("Model has been updated!");
+      $("#grd").empty();
+      var nrow = grid.length;
+      var ncol = grid[0].length;
+      //var currPower = "<td>" + "<img src='" + chr + "'>" + "</td>";
 
-        //console.log("Model has been updated!");
-        $("#grd").empty();
-        var nrow = grid.length;
-        var ncol = grid[0].length;
-        //var currPower = "<td>" + "<img src='" + chr + "'>" + "</td>";
 
+      for(var r = 0; r < nrow; r++) {
+        $("#grd").append("<tr>")
+        for(var c = 0; c < ncol; c++) {
 
-        for(var r = 0; r < nrow; r++) {
-          $("#grd").append("<tr>")
-          for(var c = 0; c < ncol; c++) {
+          var chr = "";
+          var imgid = "";
 
-            var chr = "";
-            var imgid = "";
-
-            var rdigit = "" + r;
-            var cdigit = "" + c;
-            if (rdigit.length === 1) {
-              rdigit = "0" + rdigit;
-            }
-            if (cdigit.length === 1) {
-              cdigit = "0" + cdigit;
-            }
-
-            // Player
-              if(grid[r][c] === 0) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
-              chr = "images/Bob_front.png";
-              imgid = "bobimg";
-            }
-            else if(grid[r][c] === 1) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
-              //console.log("Boat");
-              chr = "images/helicopter.png";
-              imgid = "powerup";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
-              $("#powerUpBox").html(currentPower);
-
-            }
-            else if(grid[r][c] === 2) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
-              //$('#powerUpBox').html('&#9973;');
-              //console.log("Light");
-              chr = "images/explosion.png";
-              imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
-              $("#powerUpBox").html(currentPower);
-            }
-
-            $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
+          var rdigit = "" + r;
+          var cdigit = "" + c;
+          if (rdigit.length === 1) {
+            rdigit = "0" + rdigit;
           }
-          $("#grd").append("</tr>")
+          if (cdigit.length === 1) {
+            cdigit = "0" + cdigit;
+          }
+
+          // Player
+          if(grid[r][c] === 0) {
+            //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
+            chr = "images/Bob_front.png";
+            imgid = "bobimg";
+          }
+          else if(grid[r][c] === 1) {
+            //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
+            //console.log("Boat");
+            chr = "images/helicopter.png";
+            imgid = "powerup";
+            //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+            $("#powerUpBox").html(currentPower);
+
+          }
+          else if(grid[r][c] === 2) {
+            //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
+            //$('#powerUpBox').html('&#9973;');
+            //console.log("Light");
+            chr = "images/explosion.png";
+            imgid = "powerdown";
+            //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+            $("#powerUpBox").html(currentPower);
+          }
+
+          $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
         }
-
-      });
-
-      $("#clearGrid").click(function() {
-        game.clearGrid();
-      });
-
-      var scale = 10000;
-          d3.select("#tankImg")
-          .data([1, 2, 3, 4])
-          .transition()
-          .duration(1750)
-          .attr("height", function(d) { return Math.sqrt(d * scale); });
-          //console.log("D " + d)
-          //console.log("I " + i)
+        $("#grd").append("</tr>")
+      }
 
     });
 
-    function changedBackground(bgr) {
-      if (bgr === 1) {
-        $("table").css("background-image", "url('image1.jpg')");
-        console.log("Changed Image");
-      }
-      else if (bgr === 2) {
-        $("table").css("background-image", "url('image.jpg')");
-        console.log("Changed Image");
-      }
-      else if (bgr === 3) {
-        $("table").css("background-image", "url('image3.jpg')");
-        console.log("Changed Image");
-      }
-      else if (bgr === 4) {
-        $("table").css("background-image", "url('image4.jpg')");
-        console.log("Changed Image");
-      }
-      else if (bgr === 5) {
-        $("#imgInp").change(function(){
-            readURL(this);
-        });
-        $("table").css("background-image", 'imgInp');
-        console.log("Changed Image " + imgInp.toString());
-      }
+    $("#clearGrid").click(function() {
+      game.clearGrid();
+    });
+
+    var scale = 10000;
+    d3.select("#tankImg")
+    .data([1, 2, 3, 4])
+    .transition()
+    .duration(1750)
+    .attr("height", function(d) { return Math.sqrt(d * scale); });
+    //console.log("D " + d)
+    //console.log("I " + i)
+
+  });
+
+  function changedBackground(bgr) {
+    if (bgr === 1) {
+      $("table").css("background-image", "url('image1.jpg')");
+      console.log("Changed Image");
     }
+    else if (bgr === 2) {
+      $("table").css("background-image", "url('image.jpg')");
+      console.log("Changed Image");
+    }
+    else if (bgr === 3) {
+      $("table").css("background-image", "url('image3.jpg')");
+      console.log("Changed Image");
+    }
+    else if (bgr === 4) {
+      $("table").css("background-image", "url('image4.jpg')");
+      console.log("Changed Image");
+    }
+    else if (bgr === 5) {
+      $("#imgInp").change(function(){
+        readURL(this);
+      });
+      $("table").css("background-image", 'imgInp');
+      console.log("Changed Image " + imgInp.toString());
+    }
+  }
 
 
-    // Custom Image
-    function readURL(input) {
+  // Custom Image
+  function readURL(input) {
     if (input.files && input.files[0]) {
-        var reader = new FileReader();
+      var reader = new FileReader();
 
-        reader.onload = function (e) {
-            $('#blah').attr('src', e.target.result);
-        }
+      reader.onload = function (e) {
+        $('#blah').attr('src', e.target.result);
+      }
 
-        reader.readAsDataURL(input.files[0]);
+      reader.readAsDataURL(input.files[0]);
     }
-}
+  }
 
-$("#imgInp").change(function(){
+  $("#imgInp").change(function(){
     readURL(this);
-});
+  });
 
-    </script>
-  </head>
-  <body>
+  </script>
+</head>
+<body>
   <div id="screenBorder">
     <h2 id="title">The Fighting Infantry</h2>
     <!--Start Game-->
     <div id="startScreen">
-    <div id="startScreenPress" style="z-index:2" class="coolText">PRESS</div>
-    <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
-    <div id="startScreenStart" style="z-index:2" class="coolText">START</div>
-  </div>
+      <div id="startScreenPress" style="z-index:2" class="coolText">PRESS</div>
+      <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
+      <div id="startScreenStart" style="z-index:2" class="coolText">START</div>
+    </div>
 
     <!--End Game-->
     <div id="endScreen" style="z-index:2">
-    <div id="endgameOverlay" style="z-index:2">Game Over</div>
-    <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name:</div>
-    <div id="nameBox" style="z-index:2" class="endBox">Something to fill the score</div>
-    <div id="finalScore" class="endBoxTitle" style="z-index:2">Final Score:</div>
-    <div id="finalScoreBox" style="z-index:2" class="endBox">Something to fill the score</div>
-    <div id="finalTime" class="endBoxTitle" style="z-index:2">Finish Time:</div>
-    <div id="finalTimeBox" style="z-index:2" class="endBox">Something to fill the score</div>
-    <div id="endGif" style="z-index:2"><img src="tank.gif" alt="" style="width:100px;height:100px;"></div>
-  </div>
+      <div id="endgameOverlay" style="z-index:2">Game Over</div>
+      <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name:</div>
+      <div id="nameBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalScore" class="endBoxTitle" style="z-index:2">Final Score:</div>
+      <div id="finalScoreBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalTime" class="endBoxTitle" style="z-index:2">Finish Time:</div>
+      <div id="finalTimeBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="endGif" style="z-index:2"><img src="tank.gif" alt="" style="width:100px;height:100px;"></div>
+    </div>
 
     <div id="gameBorder">
-    <table id="grd" style="z-index:1" background="image1.jpg">
-    </table>
-  </div>
-  <!-- Progressbar -->
-  <div id="healthTitle" class="boxTitle">Health:</div>
-  <div id="progressbar" class="box"></div>
-  <div id="levelTitle" class="boxTitle">Level:</div>
-  <div id="level" style="height:70px;width:70px" class="box"></div>
-  <div id="ScoreTitle" class="boxTitle">Score:</div>
-  <div id="score" style="height:70px;width:70px" class="box"></div>
-  <div id="powerupTitle" class="boxTitle">Powerup:</div>
-  <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
-  <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
+      <table id="grd" style="z-index:1" background="image1.jpg">
+      </table>
+    </div>
+    <!-- Progressbar -->
+    <div id="healthTitle" class="boxTitle">Health:</div>
+    <div id="progressbar" class="box"></div>
+    <div id="levelTitle" class="boxTitle">Level:</div>
+    <div id="level" style="height:70px;width:70px" class="box"></div>
+    <div id="ScoreTitle" class="boxTitle">Score:</div>
+    <div id="score" style="height:70px;width:70px" class="box"></div>
+    <div id="powerupTitle" class="boxTitle">Powerup:</div>
+    <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
+    <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
 
-  <div id="backgroundSelect">
-  <h2>Background:</h2>
-  <ul style="width:130px;" id="menu">
-  	<li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
-  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
-  	<li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
-  	<li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
-  	<li><div>Custom:</div>
-      <ul>
-        <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
-        <li><input type='file' id="imgInp" /><br>Use This Image</li>
+    <div id="backgroundSelect">
+      <h2>Background:</h2>
+      <ul style="width:130px;" id="menu">
+        <li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
+        <li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
+        <li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
+        <li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
+        <li><div>Custom:</div>
+          <ul>
+            <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
+            <li><input type='file' id="imgInp" /><br>Use This Image</li>
+          </ul>
+        </li>
       </ul>
-    </li>
-  </ul>
-  </div>
-  <button id="gameOverButton" style="height:80px;width:80px">Game<br>Over</button>
+    </div>
+    <button id="gameOverButton" style="height:80px;width:80px">Game<br>Over</button>
   </div>
   <!-- Menu -->
-  </body>
+</body>
 </html>
