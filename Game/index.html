@@ -159,14 +159,12 @@
 
       game.addListener(function(grid, score, currentPower) {
         $("#score").html(score);
-        $("#powerUpBox").html(currentPower);
 
-      //  console.log(score + " " + currentPower);
         //console.log("Model has been updated!");
         $("#grd").empty();
         var nrow = grid.length;
         var ncol = grid[0].length;
-        var currimg = "<td>" + "<img src='" + chr + "'>" + "</td>";
+        //var currPower = "<td>" + "<img src='" + chr + "'>" + "</td>";
 
 
         for(var r = 0; r < nrow; r++) {
@@ -196,6 +194,8 @@
               //console.log("Boat");
               chr = "images/helicopter.png";
               imgid = "powerup";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+              $("#powerUpBox").html(currentPower);
 
             }
             else if(grid[r][c] === 2) {
@@ -204,6 +204,8 @@
               //console.log("Light");
               chr = "images/explosion.png";
               imgid = "powerdown";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+              $("#powerUpBox").html(currentPower);
             }
 
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
@@ -308,7 +310,7 @@ $("#imgInp").change(function(){
   <div id="ScoreTitle" class="boxTitle">Score:</div>
   <div id="score" style="height:70px;width:70px" class="box"></div>
   <div id="powerupTitle" class="boxTitle">Powerup:</div>
-  <div id="powerUpBox" style="height:70px;width:70px" class="box"></div>
+  <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
   <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
 
   <div id="backgroundSelect">

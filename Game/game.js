@@ -97,8 +97,11 @@ var game = (function() {
 
             function findPowerUp(row, col){
               if(grid[activerow+row][activecol+col] === 1){
-                currentPower = 'images/helicopter.png';
-                powerName = "Boat";
+                powerImage = 'images/helicopter.png';
+                powerClass = 'scaledPower'
+                currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+                //currentPower = 'images/helicopter.png';
+                powerName = "Helicoper";
                 //console.log("There is a " + currentPower + " in front of you!");
 
                 // This code jumps player 3 blocks
@@ -113,8 +116,9 @@ var game = (function() {
 
               }
               else if(grid[activerow+row][activecol+col] === 2){
-                currentPower = 'images/explosion.png';
-                powerName = "Lightning";
+                powerImage = 'images/explosion.png';
+                powerClass = 'scaledPower'
+                currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
                 health = (health - 15);
                 console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
 

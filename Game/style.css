@@ -29,6 +29,13 @@
   height: 100%;
 }
 
+.scaledPower {
+  margin-left: 8px;
+  margin-top: 8px;
+  width: 150%;
+  height: 150%;
+}
+
 body {
   background-image: url("digital_camo.jpg");
   /*background-color: grey; */
