@@ -111,7 +111,6 @@ var game = (function() {
                 activerow = activerow + 3;
                 grid[activerow][activecol] = 0;
                 */
-
                 count++;
 
               }
@@ -120,10 +119,10 @@ var game = (function() {
                 powerClass = 'scaledPower'
                 currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
                 health = (health - 15);
-                console.log("Struck by lightning, you lost 25hp!\nCurrent health is: " + health)
+                console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
 
                 //console.log("There is a " + currentPower + " in front of you!");
-                count++;
+                count-=1;
               }
             }
 
