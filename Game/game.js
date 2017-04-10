@@ -59,10 +59,7 @@ var game = (function() {
     }
   }
 
-  function randomPiece(num) {
-    var rng = Math.floor(Math.random() * num);
-    return rng;
-  }
+
 
   // Enemy Speed
   function setEnemySpeed(enemySpeed2) {
@@ -122,6 +119,23 @@ var game = (function() {
       playerTimeOut = 500;
       //console.log("There is a " + currentPower + " in front of you!");
       count-=1;
+    }
+    else if(grid[activerow+row][activecol+col] === 3){
+      powerImage = 'images/health.png';
+      powerClass = 'scaledPower'
+      currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+      if(health <= 90) {
+      health = (health + 10);
+    }
+      // If the health will give you over 100% then we make sure it only gives you the amount that will put you at 100
+      else if(health > 90 && health < 100) {
+        health = (health + (100-health));
+      }
+
+      console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
+      playerTimeOut = 500;
+      //console.log("There is a " + currentPower + " in front of you!");
+      count+=1;
     }
   }
 
@@ -251,11 +265,19 @@ var game = (function() {
     }
   }
 
+  function randomPiece(num) {
+    var rng = Math.floor(Math.random() * num);
+    return rng;
+  }
+
+  // 1 = Helicopter
+  // 2 = Explosion
+  // 3 = Health
   function loadPowerups() {
-    var rngArr = [1, null, null, null, 1, 2, null, null, null, null];
+    var rngArr = [2, null, null, 1, 1, 2, null, null, null, null, 3, null, null, null, null, null, null, null, null, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
-        rng = randomPiece(10);
+        rng = randomPiece(25);
         if(!grid[i][j]){
           grid[i][j] = rngArr[rng];
           console.log("Filled tile");

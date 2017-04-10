@@ -51,7 +51,7 @@
         else if(e.keyCode == 35){ // diagleftdown
           game.moveDiagLeftDown();
         }
-        else if(e.keyCode == 34){ // diagrightdown
+          else if(e.keyCode == 34){ // diagrightdown
           game.moveDiagRightDown();
         }
         else if(e.keyCode == 88){ // auto complete grid
@@ -193,6 +193,12 @@
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
+            else if(grid[r][c] === 3) {
+              chr = "images/health.png";
+              imgid = "powerup";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+              $("#powerUpBox").html(currentPower);
+            }
 
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
@@ -236,8 +242,9 @@
         $("#imgInp").change(function(){
           readURL(this);
         });
-        $("table").css("background-image", 'imgInp');
-        console.log("Changed Image " + imgInp.toString());
+
+        //$("table").css("background-image", 'imgInp');
+        //console.log("Changed Image " + imgInp.toString());
       }
     }
 
@@ -246,10 +253,14 @@
       if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-          $('#blah').attr('src', e.target.result);
+          $('#imgInp').attr('src', e.target.result);
+          console.log(e.target.result);
+          $("table").css("background-image", "url('e.target.result')");
         }
         reader.readAsDataURL(input.files[0]);
       }
+      console.log("Changed Image " + $('#imgInp').attr('src'));
+      //$("table").css("background-image", $('#imgInp').attr('src'));
     }
 
     $("#imgInp").change(function(){
@@ -307,7 +318,7 @@
         <li><div>Custom:</div>
           <ul>
             <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
-            <li><input type='file' id="imgInp" /><br>Use This Image</li>
+            <li><input type='file' id="imgInp" / onclick="changedBackground(5)"><br>Use This Image</li>
           </ul>
         </li>
       </ul>
