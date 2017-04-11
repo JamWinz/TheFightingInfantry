@@ -199,7 +199,12 @@
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
-
+            else if(grid[r][c] === 4) {
+              chr = "images/quicksand.png";
+              imgid = "powerdown";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+              $("#powerUpBox").html(currentPower);
+            }
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
