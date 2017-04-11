@@ -130,6 +130,7 @@ var game = (function() {
     /*  if(health <= 90) {
       health = (health + 10);
     } */
+
       // If the health will give you over 100% then we make sure it only gives you the amount that will put you at 100
       else if(health > 90 && health < 100) {
         health = (health + (100-health));
@@ -158,7 +159,6 @@ var game = (function() {
       */
       count++;
     }
-
   }
 
   // Variable to slow movement ( linked timeout function )
