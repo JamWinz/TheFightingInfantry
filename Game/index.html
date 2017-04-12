@@ -98,14 +98,17 @@
 
       // Hover button color
       $("#button").mouseover(function() {
-        if(startButton % 2 === 0 || startButton === 0){
+        $("#button").css("background-image", "url('Launch_Button.png')");
+        /*if(startButton % 2 === 0 || startButton === 0){
+
           $(this).css("background-color", "darkgreen");
         }
         else{
           $(this).css("background-color", "red");
-        }
+        } */
       });
       $("#button").mouseout(function() {
+
         if(startButton % 2 === 0 || startButton === 0){
           $(this).css("background-color", "green");
         }
@@ -211,7 +214,6 @@
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
-
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
@@ -267,11 +269,11 @@
         reader.onload = function (e) {
           $('#imgInp').attr('src', e.target.result);
           console.log(e.target.result);
-          $("table").css("background-image", "url('e.target.result')");
+          $("table").css("background-image", "url('" + e.target.result+"')");
         }
         reader.readAsDataURL(input.files[0]);
       }
-      console.log("Changed Image " + $('#imgInp').attr('src'));
+      //console.log("Changed Image " + $('#imgInp').attr('src'));
       //$("table").css("background-image", $('#imgInp').attr('src'));
     }
 
