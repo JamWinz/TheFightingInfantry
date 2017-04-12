@@ -2,12 +2,20 @@ var game = (function() {
 
   console.log("Initilizing game.js");
   var count = 0;//FOR SCORE
-  var fallSpeed = 500;
-  var enemySpeed = 500;
+  //var fallSpeed = 500;
+  var enemySpeed = 5000000;
   var health = 100;
   var currentPower, powerName;
-  var playerTimeOut = 500;
 
+  var canMove = false;
+  var delayInterval;
+  function waitBeforeMove(stopTime) {
+    canMove = false;
+    setTimeout(function() {
+      canMove = true;
+    }, stopTime);
+  }
+  waitBeforeMove();
 
   function createGrid(nrow, ncol) {
     grid = [];
@@ -92,22 +100,24 @@ var game = (function() {
   }
 
   function findPowerUp(row, col){
+
     if(grid[activerow+row][activecol+col] === 1){
       powerImage = 'images/helicopter.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      //currentPower = 'images/helicopter.png';
       powerName = "Helicopter";
-      playerTimeOut = 0;
-      //console.log("There is a " + currentPower + " in front of you!");
-
+      stopTime = 0;
       // This code jumps player 3 blocks
-      /*
+
+      if(activerow+2 <= 14) {
       console.log("You board the boat, you sail forward 2 tiles.")
+      grid[activerow+row][activecol+col] = null;
       grid[activerow][activecol] = null;
-      activerow = activerow + 3;
+      activerow = activerow + 2;
       grid[activerow][activecol] = 0;
-      */
+      findPowerUp(1, 0)
+    }
+    grid[activerow][activecol] = 0;
       count++;
     }
     else if(grid[activerow+row][activecol+col] === 2){
@@ -116,7 +126,7 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       health = (health - 15);
       console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
-      playerTimeOut = 1000;
+      stopTime = 1000;
       //console.log("There is a " + currentPower + " in front of you!");
       count-=1;
     }
@@ -137,7 +147,7 @@ var game = (function() {
       }
 
       console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
-      playerTimeOut = 500;
+      stopTime = 500;
       //console.log("There is a " + currentPower + " in front of you!");
       count+=1;
     }
@@ -147,7 +157,9 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       //currentPower = 'images/helicopter.png';
       powerName = "Quicksand";
-      playerTimeOut = 1000;
+      //playerTimeOut = 2000;
+      clearInterval(delayInterval);
+      stopTime = 2000;
       //console.log("There is a " + currentPower + " in front of you!");
 
       // This code jumps player 3 blocks
@@ -159,7 +171,6 @@ var game = (function() {
       */
       count++;
     }
-
     // new power up SF 4.11.17
     else if(grid[activerow+row][activecol+col] === 5){
       powerImage = 'images/grenade.png';
@@ -179,73 +190,78 @@ var game = (function() {
       */
       count++;
     }
-
+    // If no power up default speed is set
+    else if(grid[activerow+row][activecol+col] === null) {
+      stopTime = 500;
+    }
+    console.log("PLAYER TIMEOUT: " + stopTime);
+    return stopTime;
   }
 
   // Variable to slow movement ( linked timeout function )
   var moveTimeOut;
   function moveLeft() {
-    clearInterval(moveTimeOut);
-    moveTimeOut = setTimeout(function() {
+  if(canMove){
       if (activerow !== null && activecol !== null && activecol-1 >= 0 && activecol-1 <= 9 && grid[activerow][activecol-1] !== true) {
         findPowerUp(0, -1);
         grid[activerow][activecol] = null;
         activecol--;
         grid[activerow][activecol] = 0;
+        waitBeforeMove(stopTime);
         //console.log(activecol)
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
-    }, playerTimeOut);
+    }
   }
 
   function moveRight() {
-    clearInterval(moveTimeOut);
-    moveTimeOut = setTimeout(function() {
+  if(canMove){
       if (activerow !== null && activecol !== null && activecol+1 >= 0 && activecol+1 <= 9 && grid[activerow][activecol+1] !== true) {
         findPowerUp(0, 1);
         grid[activerow][activecol] = null;
         activecol++;
         grid[activerow][activecol] = 0;
+        waitBeforeMove(stopTime);
         //console.log(activecol)
         //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
-    }, playerTimeOut);
+    }
   }
 
   function moveDown() {
-    clearInterval(moveTimeOut);
-    moveTimeOut = setTimeout(function() {
+    if(canMove){
       if (activerow !== null && activecol !== null && activerow+1 >= 0 && activerow+1 <= 14 && grid[activerow+1][activecol] !== true) {
-        findPowerUp(1, 0);
+        var stopTime = findPowerUp(1, 0);
         grid[activerow][activecol] = null;
         activerow++;
         //clearInterval(moveInterval);
         grid[activerow][activecol] = 0;
+        waitBeforeMove(stopTime);
         //console.log(activerow);
         //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
-    }, playerTimeOut);
+    }
   }
 
   function moveUp() {
-    clearInterval(moveTimeOut);
-    moveTimeOut = setTimeout(function() {
+  if(canMove){
       if (activerow !== null && activecol !== null && activerow-1 >= 0 && activerow-1 <= 14 && grid[activerow-1][activecol] !== true) {
         findPowerUp(-1, 0);
         grid[activerow][activecol] = null;
         activerow--;
         grid[activerow][activecol] = 0;
+        waitBeforeMove(stopTime);
         //console.log(activerow)
         //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
-    }, playerTimeOut);
+    }
   }
 
   function moveDiagLeftDown() {
@@ -346,7 +362,7 @@ var game = (function() {
       notify();
       //Clear a complete row
       clearRow();
-    }, fallSpeed);
+    }, enemySpeed);
   }
 
   function enemyMove() {
@@ -380,7 +396,7 @@ var game = (function() {
         clearInterval(enemyInterval);
         if (enemyrow !== 16) {
           // Increase fallspeed based on these conditions
-          fallSpeed = 10000000000;
+          enemySpeed = 500; // 1000000000
           count-=1;
           console.log(enemyrow)
           createEnemy(14, 5);
@@ -406,7 +422,7 @@ var game = (function() {
           grid[enemyrow][enemycol] = 0;
         }
         else{
-          console.log("Attempted to go Out of bounds");
+          console.log("Enemy attempted to go Out of bounds");
           if(enemycol === 9){
             enemycol--;
             grid[enemyrow][enemycol] = 0;
@@ -419,6 +435,7 @@ var game = (function() {
       }
     }, enemySpeed);
   }
+
 
   var listeners = [];
 
@@ -452,6 +469,6 @@ var game = (function() {
     setEnemySpeed: setEnemySpeed,
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
-    getHealthBar: getHealthBar
+    getHealthBar: getHealthBar,
   };
 })();
