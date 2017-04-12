@@ -98,14 +98,17 @@
 
       // Hover button color
       $("#button").mouseover(function() {
-        if(startButton % 2 === 0 || startButton === 0){
+        $("#button").css("background-image", "url('Launch_Button.png')");
+        /*if(startButton % 2 === 0 || startButton === 0){
+
           $(this).css("background-color", "darkgreen");
         }
         else{
           $(this).css("background-color", "red");
-        }
+        } */
       });
       $("#button").mouseout(function() {
+
         if(startButton % 2 === 0 || startButton === 0){
           $(this).css("background-color", "green");
         }
