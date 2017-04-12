@@ -263,11 +263,11 @@
         reader.onload = function (e) {
           $('#imgInp').attr('src', e.target.result);
           console.log(e.target.result);
-          $("table").css("background-image", "url('e.target.result')");
+          $("table").css("background-image", "url('" + e.target.result+"')");
         }
         reader.readAsDataURL(input.files[0]);
       }
-      console.log("Changed Image " + $('#imgInp').attr('src'));
+      //console.log("Changed Image " + $('#imgInp').attr('src'));
       //$("table").css("background-image", $('#imgInp').attr('src'));
     }
 
