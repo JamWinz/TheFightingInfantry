@@ -59,12 +59,17 @@
         }
       });
 
+      // Player starting hp (Creates 100% health, the if statement uses change to change the health based on powerup/down)
+      $( "#progressbar" ).progressbar({
+        value: health,
+        create: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
+      }).height(25).width(200);
       // HEALTH
       function currentHealth(health){
         if(health > 75 && health <= 100) {
           $( "#progressbar" ).progressbar({
             value: health,
-            create: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
+            change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
           }).height(25).width(200);
         }
         else if(health > 50 && health <= 75){
@@ -208,6 +213,12 @@
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
+            else if(grid[r][c] === 5) {
+              chr = "images/grenade.png";
+              imgid = "powerdown";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
+              $("#powerUpBox").html(currentPower);
+            }
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
@@ -263,11 +274,11 @@
         reader.onload = function (e) {
           $('#imgInp').attr('src', e.target.result);
           console.log(e.target.result);
-          $("table").css("background-image", "url('e.target.result')");
+          $("table").css("background-image", "url('" + e.target.result+"')");
         }
         reader.readAsDataURL(input.files[0]);
       }
-      console.log("Changed Image " + $('#imgInp').attr('src'));
+      //console.log("Changed Image " + $('#imgInp').attr('src'));
       //$("table").css("background-image", $('#imgInp').attr('src'));
     }
 
@@ -314,6 +325,9 @@
     <div id="powerupTitle" class="boxTitle">Powerup:</div>
     <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
+    <button id="resetButton" style="height:80px;width:80px"><a href='#' onclick='location.reload(true); return false;'>Reset</a></button>
+    <!-- This is to include an image in button -->
+    <!--<div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="images/Lauch_Button.png"></button></div>-->
 
     <!-- Change Background -->
     <div id="backgroundSelect">
@@ -326,12 +340,11 @@
         <li><div>Custom:</div>
           <ul>
             <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
-            <li><input type='file' id="imgInp" / onclick="changedBackground(5)"><br>Use This Image</li>
+            <li><input type='file' id="imgInp" onclick="changedBackground(5)"><br>Use This Image</li>
           </ul>
         </li>
       </ul>
     </div>
-    <button id="gameOverButton" style="height:80px;width:80px">Game<br>Over</button>
   </div>
   <!-- Menu -->
 </body>

@@ -3,7 +3,7 @@ var game = (function() {
   console.log("Initilizing game.js");
   var count = 0;//FOR SCORE
   //var fallSpeed = 500;
-  var enemySpeed = 500;
+  var enemySpeed = 5000000;
   var health = 100;
   var currentPower, powerName;
 
@@ -107,15 +107,24 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Helicopter";
       stopTime = 0;
-      //playerTimeOut = 0;
-
       // This code jumps player 3 blocks
 
-      console.log("You board the boat, you sail forward 2 tiles.")
-      grid[activerow+row][activecol+col] = null;
-      grid[activerow][activecol] = null;
-      activerow = activerow + 2;
-      grid[activerow][activecol] = 0;
+      if(activerow+2 < 14) {
+        console.log("You board the helicopter, you fly forward 2 tiles.")
+        grid[activerow+row][activecol+col] = null;
+        grid[activerow][activecol] = null;
+        activerow = activerow + 2;
+        grid[activerow][activecol] = 0;
+        findPowerUp(1, 0)
+        console.log("A");
+      }
+      // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
+      else {
+        grid[activerow][activecol] = null;
+        grid[13][activecol] = 0;
+        //findPowerUp(1, 0)
+        console.log("B");
+      }
 
       count++;
     }
@@ -170,6 +179,26 @@ var game = (function() {
       */
       count++;
     }
+    // new power up SF 4.11.17
+    else if(grid[activerow+row][activecol+col] === 5){
+      powerImage = 'images/grenade.png';
+      powerClass = 'scaledPower'
+      currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+      //currentPower = 'images/helicopter.png';
+      powerName = "Kill";
+      playerTimeOut = 0;
+      //console.log("There is a " + currentPower + " in front of you!");
+
+      // This code jumps player 3 blocks
+      /*
+      console.log("You board the boat, you sail forward 2 tiles.")
+      grid[activerow][activecol] = null;
+      activerow = activerow + 3;
+      grid[activerow][activecol] = 0;
+      */
+      count++;
+    }
+    // If no power up default speed is set
     else if(grid[activerow+row][activecol+col] === null) {
       stopTime = 500;
     }
@@ -312,7 +341,7 @@ var game = (function() {
   // 2 = Explosion
   // 3 = Health
   function loadPowerups() {
-    var rngArr = [2, null, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
+    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
         rng = randomPiece(25);
@@ -375,7 +404,7 @@ var game = (function() {
         clearInterval(enemyInterval);
         if (enemyrow !== 16) {
           // Increase fallspeed based on these conditions
-          enemySpeed = 10000000000;
+          enemySpeed = 500; // 1000000000
           count-=1;
           console.log(enemyrow)
           createEnemy(14, 5);
@@ -401,7 +430,7 @@ var game = (function() {
           grid[enemyrow][enemycol] = 0;
         }
         else{
-          console.log("Attempted to go Out of bounds");
+          console.log("Enemy attempted to go Out of bounds");
           if(enemycol === 9){
             enemycol--;
             grid[enemyrow][enemycol] = 0;
@@ -414,6 +443,7 @@ var game = (function() {
       }
     }, enemySpeed);
   }
+
 
   var listeners = [];
 
@@ -447,6 +477,6 @@ var game = (function() {
     setEnemySpeed: setEnemySpeed,
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
-    getHealthBar: getHealthBar
+    getHealthBar: getHealthBar,
   };
 })();
