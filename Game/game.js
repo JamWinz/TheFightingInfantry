@@ -109,22 +109,25 @@ var game = (function() {
       stopTime = 0;
       // This code jumps player 3 blocks
 
-      if(activerow+2 <= 14) {
-        console.log("You board the boat, you sail forward 2 tiles.")
+
+      if(activerow+2 < 14) {
+        console.log("You board the helicopter, you fly forward 2 tiles.")
         grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
         activerow = activerow + 2;
         grid[activerow][activecol] = 0;
         findPowerUp(1, 0)
+        console.log("A");
       }
+      
       // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
       else {
-        grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
-        grid[14][activecol] = 0;
-        findPowerUp(1, 0)
+        grid[13][activecol] = 0;
+        //findPowerUp(1, 0)
+        console.log("B");
       }
-
+     }
       count++;
     }
     else if(grid[activerow+row][activecol+col] === 2){
