@@ -109,25 +109,22 @@ var game = (function() {
       stopTime = 0;
       // This code jumps player 3 blocks
 
-
-      if(activerow+2 < 14) {
-        console.log("You board the helicopter, you fly forward 2 tiles.")
+      if(activerow+2 <= 14) {
+        console.log("You board the boat, you sail forward 2 tiles.")
         grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
         activerow = activerow + 2;
         grid[activerow][activecol] = 0;
         findPowerUp(1, 0)
-        console.log("A");
       }
-      
       // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
       else {
+        grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
-        grid[13][activecol] = 0;
-        //findPowerUp(1, 0)
-        console.log("B");
+        grid[14][activecol] = 0;
+        findPowerUp(1, 0)
       }
-     }
+
       count++;
     }
     else if(grid[activerow+row][activecol+col] === 2){
@@ -326,6 +323,10 @@ var game = (function() {
     }
   }
 
+  function shoot() {
+    grid[activerow+1][activecol] = 2;
+  }
+
   function autoComplete() {
     for(var i = grid.length-1; i > 0; i--) {
       for(var j = 10; j >= 0; j--) {
@@ -480,5 +481,6 @@ var game = (function() {
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
     getHealthBar: getHealthBar,
+    shoot: shoot
   };
 })();
