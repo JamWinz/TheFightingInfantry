@@ -323,6 +323,10 @@ var game = (function() {
     }
   }
 
+  function shoot() {
+    grid[activerow+1][activecol] = 2;
+  }
+
   function autoComplete() {
     for(var i = grid.length-1; i > 0; i--) {
       for(var j = 10; j >= 0; j--) {
@@ -477,5 +481,6 @@ var game = (function() {
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
     getHealthBar: getHealthBar,
+    shoot: shoot
   };
 })();
