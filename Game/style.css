@@ -29,10 +29,10 @@
 }
 
 .scaledPower {
-  margin-left: 8px;
+  margin-left: 6px;
   margin-top: 8px;
-  width: 150%;
-  height: 150%;
+  width: 250%;
+  height: 250%;
 }
 
 body {
@@ -133,12 +133,14 @@ td {
 
 
 #backgroundSelect {
-  margin-top: -470px;
+  margin-top: -460px;
   margin-left: 665px;
   font: arial;
 }
 
 #backgroundSelect h2 {
+  font-family: 'Brush Script MT';
+  font-size: 35px;
   color: black;
   margin-left: -10px;
 }
@@ -164,9 +166,6 @@ td {
   background-color: white;
 }
 
-
-
-
 .player {
   text-align: center;
   /*display: inline-block;
@@ -179,26 +178,28 @@ td {
 }
 
 #title {
-  color: darkred;
+  color: darkgreen;
   font-size: 50px;
   text-align: center;
   margin-top: 0px;
+  text-shadow: 0 1px 0 #ccc,
 }
 
 #powerUpBox {
   position: relative;
   text-align: center;
   /*background-color: #FAF0E6;*/
-  font-size: 50px;
+  font-size: 80px;
   background: lightgreen; /* fallback for old browsers */
   border: solid 3px black;
 }
 
 #score {
+  font-family: 'Brush Script MT';
   position: relative;
   text-align: center;
   /*background-color: #FAF0E6;*/
-  font-size: 60px;
+  font-size: 90px;
   background: orange; /* fallback for old browsers */
   border: solid 3px black;
 }
@@ -213,8 +214,8 @@ td {
 }
 
 .boxTitle{
-  font-size: 20px;
-  font-family: sans-serif;
+  font-size: 35px;
+  font-family: 'Brush Script MT';
   margin-left: 95px;
   float: top;
   padding: 0px;
@@ -223,7 +224,7 @@ td {
 }
 
 .box {
-  margin-left: 90px;
+  margin-left: 75px;
   float: top;
   margin-bottom: 30px;
   box-shadow: 7px 1px 20px;
@@ -232,7 +233,6 @@ td {
 
 table {
   position: absolute;
-  /*background-image: url("image1.jpg");*/
   background-size: 100% 100%;
   border-collapse: collapse;
   margin-top: 0px;
