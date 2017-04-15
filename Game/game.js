@@ -5,6 +5,7 @@ var game = (function() {
   var explo = new Audio('sounds/explosion.wav');
   var heli = new Audio('sounds/helicopter.wav');
   var sand = new Audio('sounds/sand.wav');
+  var bullet = new Audio('sounds/bullet.wav');
 
   // Counts the score
   var count = 0;
@@ -245,6 +246,7 @@ var game = (function() {
   }
 
   function shoot() {
+      bullet.play();
       var bulletRow = activerow;
       var bulletCol = activecol;
       stopTime = 500;
