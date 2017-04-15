@@ -23,9 +23,7 @@
       $("#menu").menu();
       // Grid Size
       game.createGrid(15, 10);
-
       var activeid = null;
-
       var moveTimeOut;
 
       // Key movements ( KEY DOWN )
@@ -42,22 +40,7 @@
         else if(e.keyCode == 38){ // up
           game.moveUp();
         }
-        else if(e.keyCode == 36){ // diagleftUp
-          game.moveDiagLeftUp();
-        }
-        else if(e.keyCode == 33){ // diagrightUp
-          game.moveDiagRightUp();
-        }
-        else if(e.keyCode == 35){ // diagleftdown
-          game.moveDiagLeftDown();
-        }
-          else if(e.keyCode == 34){ // diagrightdown
-          game.moveDiagRightDown();
-        }
-        else if(e.keyCode == 88){ // auto complete grid
-          game.autoComplete();
-        }
-        else if(e.keyCode == 83){ // auto complete grid
+        else if(e.keyCode == 17){ // Shoot bullet
           game.shoot();
         }
       });
@@ -183,22 +166,16 @@
 
             // Player
             if(grid[r][c] === 0) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
               chr = "images/Bob_front.png";
               imgid = "bobimg";
             }
             else if(grid[r][c] === 1) {
-            //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
-            //console.log("Boat");
               chr = "images/helicopter.png";
               imgid = "powerup";
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 2) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
-              //$('#powerUpBox').html('&#9973;');
-              //console.log("Light");
               chr = "images/explosion.png";
               imgid = "powerdown";
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
@@ -221,6 +198,11 @@
               imgid = "powerdown";
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
+            }
+            else if(grid[r][c] === 9) {
+              chr = "images/TorchFlamesFierce.gif-c200";
+              imgid = "powerdown";
+              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
             }
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
@@ -321,12 +303,10 @@
     <!-- Progressbar -->
     <div id="healthTitle" class="boxTitle">Health:</div>
     <div id="progressbar" class="box"></div>
-    <div id="levelTitle" class="boxTitle">Level:</div>
-    <div id="level" style="height:70px;width:70px" class="box"></div>
     <div id="ScoreTitle" class="boxTitle">Score:</div>
-    <div id="score" style="height:70px;width:70px" class="box"></div>
+    <div id="score" style="height:100px;width:100px" class="box"></div>
     <div id="powerupTitle" class="boxTitle">Powerup:</div>
-    <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
+    <div id="powerUpBox" style="height:100px;width:100px" class="box"><tr><td></td></tr></div>
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
     <button id="resetButton" style="height:80px;width:80px"><a href='#' onclick='location.reload(true); return false;'>Reset</a></button>
     <!-- This is to include an image in button -->
