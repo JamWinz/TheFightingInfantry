@@ -37,18 +37,14 @@
 
 body {
   background-image: url("digital_camo.jpg");
-  /*background-color: grey; */
 }
 
 td, th, td {
-  /*border: 1px solid black;*/ /* DEFAULT CELL BORDER */
   border-collapse: collapse;
 }
 
 td {
  display: inline-block;
- /*background-color: white;*/
- /*border: solid 2px lightgrey; /* CELL BORDER */
  width: 35px;
  height: 35px;
  float: left;
@@ -80,8 +76,8 @@ td {
  margin-top: 110px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
 }
 
 #finalScoreTitle {
@@ -98,8 +94,8 @@ td {
  margin-top: 210px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
 }
 
 #finalTime {
@@ -112,8 +108,13 @@ td {
  margin-top: 310px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
+}
+
+#name {
+  margin-top: 440px;
+  margin-left: 340px;
 }
 
 
@@ -126,6 +127,8 @@ td {
 }
 
 .endBox {
+  width: 200px;
+  text-align: center;
   position: absolute;
   box-shadow: 7px 1px 20px;
   border-radius: 15%;
@@ -145,17 +148,6 @@ td {
   margin-left: -10px;
 }
 
-#resetButton {
-  position: absolute;
-  text-decoration: none;
-  text-align: center;
-  box-shadow: 3px 10px 13px;
-  font-family: "Impact";
-  font-size: 25px;
-  margin-left: 680px;
-  margin-top: 40px;
-}
-
 #menu {
   margin-top: -15px;
   margin-left: -15px;
@@ -168,13 +160,6 @@ td {
 
 .player {
   text-align: center;
-  /*display: inline-block;
-  background-color: grey;
-  border: solid 2px lightgrey;
-  width: 25px;
-  height: 25px;
-  float: left;
-  color: black;*/
 }
 
 #title {
@@ -198,18 +183,8 @@ td {
   font-family: 'Brush Script MT';
   position: relative;
   text-align: center;
-  /*background-color: #FAF0E6;*/
-  font-size: 90px;
-  background: orange; /* fallback for old browsers */
-  border: solid 3px black;
-}
-
-#level {
-  margin-top:0px;
-  position: relative;
-  text-align: center;
-  /*background-color: #FAF0E6;*/
-  background: lightblue; /* fallback for old browsers */
+  font-size: 70px;
+  background: orange;
   border: solid 3px black;
 }
 
@@ -257,12 +232,26 @@ table {
   background: linear-gradient(to bottom, #627d4d 0%,#1f3b08 100%);
 }
 
+
 #button {
   /*width: 100%;
   height: 100%;*/
-
   background-color: green;
   margin-left: 50px;
+  float: left;
+  font-size: 25px;
+  color: black;
+  border-radius: 50%;
+  font-weight: bold;
+  border: solid 5px black;
+  box-shadow: 6px 5px 30px;
+}
+
+#resetButton {
+  position: absolute;
+  text-decoration: none;
+  background-color: red;
+  margin-left: 660px;
   float: left;
   font-size: 25px;
   color: black;
@@ -300,6 +289,18 @@ table {
   letter-spacing: 5px;
   font: 45px 'MisoRegular';
   position: absolute;
+}
+
+.nameText {
+  color: yellow;
+  text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px black, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px black;
+  letter-spacing: 1px;
+  font: 25px 'MisoRegular';
+  position: absolute;
+}
+
+#playerName {
+  text-align: center;
 }
 
 #startScreenPress {

@@ -6,14 +6,18 @@ var game = (function() {
   var heli = new Audio('sounds/helicopter.wav');
   var sand = new Audio('sounds/sand.wav');
   var bullet = new Audio('sounds/bullet.wav');
-
+  var finTime = 0;
   // Counts the score
   var count = 0;
-  //var fallSpeed = 500;
   var enemySpeed = 750;
   var health = 100;
   var currentPower, powerName;
   var rand = Math.floor(Math.random() * 10);;
+
+
+  setInterval(function() {
+    finTime++;
+  }, 1000);
 
   var canMove = false;
   var delayInterval;
@@ -38,36 +42,6 @@ var game = (function() {
   function updateScore() {
     return count.toString();
   }
-
-  //Clear row function
-  function clearRow(){
-    for(var i = 0; i <= 10; i++) {
-      if(i === 10){
-        for(var j = 0; j < 10; j++) {
-          grid[activerow][j] = null;
-        }
-        count+=10;
-
-        for(var k = grid.length-1; k > 0; k--) {
-
-          for(var l = 10; l >= 0; l--) {
-            if(grid[k][l] === true) {
-              grid[k+1][l] = true;
-              grid[k][l] = null;
-            }
-          }
-
-        }
-      }
-      else if(grid[activerow][i] === true) {
-        console.log("There is a block in row " + i);
-      }
-      else {
-        break;
-      }
-    }
-  }
-
 
   // Enemy Speed
   function setEnemySpeed(enemySpeed2) {
@@ -224,6 +198,14 @@ var game = (function() {
         //console.log(activerow);
         //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
+        if(activerow === 14) {
+          clearGrid();
+          console.log($("#foodName").val())
+          $("#nameBox").html($("#playerName").val());
+          $("#finalScoreBox").html(count);
+          $("#finalTimeBox").html(finTime + " Seconds");
+          $("#endScreen").css("display", "block");
+        }
         notify();
       }
     }
@@ -285,21 +267,19 @@ var game = (function() {
     return rng;
   }
 
-  // 1 = Helicopter
-  // 2 = Explosion
-  // 3 = Health
+  // 1 = Helicopter 2 = Explosion 3 = Health 4 == Heart 5 = Grenade
   function loadPowerups() {
     var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
         rng = randomPiece(25);
-        if(!grid[i][j]){
-          grid[i][j] = rngArr[rng];
-          console.log("Filled tile");
+          if(!grid[i][j]){
+            grid[i][j] = rngArr[rng];
+            console.log("Filled tile");
+          }
         }
       }
     }
-  }
 
   function createBlock(row, col){
     //  $('#score').text(updateScore());
@@ -311,13 +291,9 @@ var game = (function() {
     notify();
     var interval = setInterval(function() {
       if (activerow+1 === grid.length /*|| grid[activerow+1][activecol] === true*/) {
-        // we reached the bottom
         clearInterval(interval);
-        //createBlock(0, 4); FOR ENEMY MOVEMENT
       }
       notify();
-      //Clear a complete row
-      clearRow();
     }, enemySpeed);
   }
 
@@ -351,34 +327,42 @@ var game = (function() {
         grid[enemyrow][enemycol] = null;
         if(enemyDir === 0 && enemycol) {
           enemyrow--;
-          grid[enemyrow][enemycol] = 0;
+          grid[enemyrow][enemycol] = 8;
         }
         else if(enemyDir === 1 && enemycol >= 0 && enemycol-1 >= 0 && enemycol+1 <= 9) {
           enemycol--;
-          grid[enemyrow][enemycol] = 0;
+          grid[enemyrow][enemycol] = 8;
         }
         else if(enemyDir === 2 && enemycol < 10 && enemycol-1 >= 0 && enemycol+1 <= 9) {
         //  enemycol++;
-          grid[enemyrow][enemycol] = 0;
+          grid[enemyrow][enemycol] = 8;
         }
         else{
           console.log("Enemy attempted to go Out of bounds");
           if(enemycol === 9){
             enemycol--;
-            grid[enemyrow][enemycol] = 0;
+            grid[enemyrow][enemycol] = 8;
           }
           else if(enemycol === 0){
             enemycol++;
-            grid[enemyrow][enemycol] = 0;
+            grid[enemyrow][enemycol] = 8;
           }
         }
       }
     }, enemySpeed);
   }
 
+  function clearGrid() {
+    for(var i = 14; i >= 0; i--) {
+      for(var j = 10; j >= 0; j--) {
+        grid[i][j] = null;
+
+      }
+    }
+  }
+
 
   var listeners = [];
-
   function addListener(cb) {
     listeners.push(cb);
     notify();
@@ -398,13 +382,13 @@ var game = (function() {
     moveRight: moveRight,
     moveDown: moveDown,
     moveUp: moveUp,
-    clearRow: clearRow,
     updateScore: updateScore,
     createGrid: createGrid,
     setEnemySpeed: setEnemySpeed,
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
     getHealthBar: getHealthBar,
-    shoot: shoot
+    shoot: shoot,
+    clearGrid, clearGrid
   };
 })();

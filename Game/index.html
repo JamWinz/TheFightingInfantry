@@ -11,14 +11,11 @@
   <script src="game.js"></script>
   <script>
     $(function() {
+      var playerName;
       var startButton = 0;
       var health = game.getHealthBar();
 
       $("#endScreen").css("display", "none");
-      $("#gameOverButton").click(function() {
-        $("#endScreen").css("display", "block");
-      });
-
       //Select Background Menu
       $("#menu").menu();
       // Grid Size
@@ -40,7 +37,7 @@
         else if(e.keyCode == 38){ // up
           game.moveUp();
         }
-        else if(e.keyCode == 17){ // Shoot bullet
+        else if(e.keyCode == 88){ // Shoot bullet
           game.shoot();
         }
       });
@@ -112,6 +109,7 @@
       $("#button").click(function() {
         //Controller for playing a move
         if(startButton === 0){
+          playerName = $("#playerName").val()
           currentHealth(health);
           $('#button').text("Pause");
           $('#button').css("background-color", "darkred");
@@ -172,46 +170,40 @@
             else if(grid[r][c] === 1) {
               chr = "images/helicopter.png";
               imgid = "powerup";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 2) {
               chr = "images/explosion.png";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 3) {
               chr = "images/health.png";
               imgid = "powerup";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 4) {
               chr = "images/quicksand.png";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 5) {
               chr = "images/grenade.png";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
+            }
+            else if(grid[r][c] === 8) {
+              chr = "images/protoenemy.gif";
+              imgid = "bobimg";
             }
             else if(grid[r][c] === 9) {
               chr = "images/TorchFlamesFierce.gif-c200";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
             }
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
         }
-      });
-
-      $("#clearGrid").click(function() {
-        game.clearGrid();
       });
 
       var scale = 10000;
@@ -220,9 +212,6 @@
       .transition()
       .duration(1750)
       .attr("height", function(d) { return Math.sqrt(d * scale); });
-      //console.log("D " + d)
-      //console.log("I " + i)
-
     });
 
     function changedBackground(bgr) {
@@ -276,23 +265,26 @@
 <body>
   <div id="screenBorder">
     <h2 id="title">The Fighting Infantry</h2>
-
     <!--Start Game-->
     <div id="startScreen">
       <div id="startScreenPress" style="z-index:2" class="coolText">PRESS</div>
       <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
       <div id="startScreenStart" style="z-index:2" class="coolText">START</div>
+      <div id="name" style="z-index:2"  class="nameText">
+      <div id="enterName">Enter Your Name</div>
+      <input type="text" id="playerName" style="width:190px;height:25px;">
+    </div>
     </div>
 
     <!--End Game-->
     <div id="endScreen" style="z-index:2">
       <div id="endgameOverlay" style="z-index:2">Game Over</div>
-      <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name:</div>
-      <div id="nameBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name</div>
+      <div id="nameBox" style="z-index:2" class="endBox"></div>
       <div id="finalScore" class="endBoxTitle" style="z-index:2">Final Score:</div>
-      <div id="finalScoreBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalScoreBox" style="z-index:2" class="endBox"></div>
       <div id="finalTime" class="endBoxTitle" style="z-index:2">Finish Time:</div>
-      <div id="finalTimeBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalTimeBox" style="z-index:2" class="endBox"></div>
       <div id="endGif" style="z-index:2"><img src="tank.gif" alt="" style="width:100px;height:100px;"></div>
     </div>
 
@@ -308,7 +300,7 @@
     <div id="powerupTitle" class="boxTitle">Powerup:</div>
     <div id="powerUpBox" style="height:100px;width:100px" class="box"><tr><td></td></tr></div>
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
-    <button id="resetButton" style="height:80px;width:80px"><a href='#' onclick='location.reload(true); return false;'>Reset</a></button>
+    <button id="resetButton" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px" ><ahref='#' onclick='location.reload(true); return false;'>Reset</a></button>
     <!-- This is to include an image in button -->
     <!--<div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="images/Lauch_Button.png"></button></div>-->
 
