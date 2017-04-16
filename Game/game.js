@@ -15,9 +15,7 @@ var game = (function() {
   var rand = Math.floor(Math.random() * 10);;
 
 
-  setInterval(function() {
-    finTime++;
-  }, 1000);
+
 
   var canMove = false;
   var delayInterval;
@@ -69,6 +67,9 @@ var game = (function() {
   var enemycol = null;
 
   function startGame() {
+    setInterval(function() {
+      finTime++;
+    }, 1000);
     createBlock(0, 5);
     createEnemy(14, rand);
   }
