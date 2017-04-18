@@ -1,3 +1,6 @@
+
+
+
 var game = (function() {
 
   console.log("Initilizing game.js");
@@ -95,10 +98,11 @@ var game = (function() {
         grid[activerow][activecol] = 0;
         findPowerUp(1, 0)
       }
+      // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
 
       else if(activerow+2 === 14) {
         grid[activerow][activecol] = null;
-        grid[13][activecol] = 0;
+        grid[14][activecol] = 0;
         findPowerUp(1, 0)
       }
       else {
@@ -143,18 +147,51 @@ var game = (function() {
       count-=1;
     }
     else if(grid[activerow+row][activecol+col] === 5){
+
+      // this powerup takes away 2 points and throws the grenade to the right of the screen
+      // TO DO: read the position of the grenade and move it instead of it showing at top of the screen
+      // this powerup has a bug if it is the first powerup to be grabbed
+
       gren.play();
-      powerImage = 'images/b1.gif';
+      powerImage = 'images/grenade.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Grenade";
       playerTimeOut = 0;
+
+      /* 4/15/17 SF inserts */
+
+
+      $(document).ready(function(e) {
+          var width = "+=" + $(document).width();
+          $("#animate").animate({
+          left: width
+        }, 5000, function() {
+          $("#animate").css("display", "none");
+        });
+      });
+      count-=2;
+    }
+    else if(grid[activerow+row][activecol+col] === 6){
+      // this powerup gives you +2 points and it changes Bob's image
+      powerImage = 'images/Sniper_Rifle2.png';
+      powerClass = 'scaledPower'
+      currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+      powerName = "Sniper_rifle";
+
+      //todo
+
+      stopTime = 500;
+      count+=2;
       count++;
     }
-    // If no power up default speed is set
+
+      /* 4/15/17 SF inserts end here */
+
     else if(grid[activerow+row][activecol+col] === null) {
       stopTime = 500;
     }
+
     console.log("PLAYER TIMEOUT: " + stopTime);
     return stopTime;
   }
@@ -233,6 +270,7 @@ var game = (function() {
     }
   }
 
+
   function shoot() {
       bullet.play();
       var bulletRow = activerow;
@@ -275,7 +313,7 @@ var game = (function() {
 
   // 1 = Helicopter 2 = Explosion 3 = Health 4 == Heart 5 = Grenade
   function loadPowerups() {
-    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
+    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, 6, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
         rng = randomPiece(25);
