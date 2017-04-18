@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="jquery-3.1.1.min.js"></script>
+    <script src="jquery-ui.js"></script>
+    <script src="d3.min.js"></script>
+    <link href="jquery-ui.css" rel="stylesheet">
+    <title style="text-align:center">The Fighting Infrantry</title>
+
+    <script src="game.js"></script>
+    <script>
+    $(function() {
+      var startButton = 0;
+      var health = game.getHealthBar();
+      $("#startScreen").css("display", "none");
+      $("#endScreen").css("display", "none");
+      $("#gameOverButton").click(function() {
+      $("#endScreen").css("display", "block");
+      });
+      //Select Background Menu
+      $("#menu").menu();
+
+      // Grid Size
+      game.createGrid(15, 10);
+
+      var activeid = null;
+
+      // Key movements
+      $("body").keydown(function(e) {
+        if(e.keyCode == 37) { // left
+          game.moveLeft();
+          currentHealth(game.getHealthBar());
+        }
+        else if(e.keyCode == 39) { // right
+          currentHealth(game.getHealthBar());
+          game.moveRight();
+        }
+        else if(e.keyCode == 40){ // down
+          game.moveDown();
+          currentHealth(game.getHealthBar());
+        }
+        else if(e.keyCode == 38){ // up
+          currentHealth(game.getHealthBar());
+          game.moveUp();
+        }
+        else if(e.keyCode == 36){ // diagleftUp
+          game.moveDiagLeftUp();
+        }
+        else if(e.keyCode == 33){ // diagrightUp
+          game.moveDiagRightUp();
+        }
+        else if(e.keyCode == 35){ // diagleftdown
+          game.moveDiagLeftDown();
+        }
+        else if(e.keyCode == 34){ // diagrightdown
+          game.moveDiagRightDown();
+        }
+        else if(e.keyCode == 88){ // auto complete grid
+          game.autoComplete();
+        }
+      });
+
+      // HEALTH
+      function currentHealth(health){
+        if(health > 75 && health <= 100){
+        $( "#progressbar" ).progressbar({
+          value: health,
+          create: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'#00f000'})}
+        }).height(25).width(200);
+      }
+
+      else if(health > 50 && health <= 75){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'lightgreen'})}
+      }).height(25).width(200);
+    }
+
+      else if(health > 25 && health <= 50){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'orange'})}
+      }).height(25).width(200);
+    }
+
+      else if(health > 0 && health <= 25){
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
+      }).height(25).width(200);
+    }
+
+    // Game over
+    else {
+      $("#endScreen").css("display", "block"),
+      $( "#progressbar" ).progressbar({
+        value: health,
+        change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
+      }).height(25).width(200);
+    }
+  }
+
+
+  // UNIT TEST
+  game.startGame();
+  function moveDownTest(){
+    game.moveDown();
+    currentHealth(game.getHealthBar());
+}
+
+setInterval(function() {
+moveDownTest();
+}, 1000);
+
+
+
+
+
+      // Hover button color
+      $("#button").mouseover(function() {
+        if(startButton % 2 === 0 || startButton === 0){
+        $(this).css("background-color", "darkgreen");
+      }
+      else{
+        $(this).css("background-color", "red");
+      }
+      });
+      $("#button").mouseout(function() {
+        if(startButton % 2 === 0 || startButton === 0){
+          $(this).css("background-color", "green");
+        }
+        else{
+          $(this).css("background-color", "crimson");
+        }
+      });
+
+
+      //var player1 = true;
+      $("#button").click(function() {
+        //Controller for playing a move
+
+        if(startButton === 0){
+        currentHealth(health);
+        $('#button').text("Pause");
+        $('#button').css("background-color", "darkred");
+        $("#backgroundSelect").css("display", "none");
+        $("#startScreen").css("display", "none");
+        game.startGame(); //Make sure there is a mute button too!
+        startButton++;
+        console.log("GAME STARTED");
+      }
+      else if(startButton % 2 !== 0){
+        $('#button').text("Resume");
+        $('#button').css("background-color", "green");
+        game.setEnemySpeed(10000000000);
+        game.getEnemySpeed(10000000000);
+        startButton++;
+        console.log("Game is now paused.");
+
+    }
+      else{
+        $('#button').text("Pause");
+        $('#button').css("background-color", "red");
+        game.setEnemySpeed(500);
+        game.getEnemySpeed(500);
+        console.log("Game already in progress.");
+        startButton++;
+      }
+      });
+
+      game.addListener(function(grid, score, currentPower) {
+        $("#score").html(score);
+        $("#powerUpBox").html(currentPower);
+
+      //  console.log(score + " " + currentPower);
+        //console.log("Model has been updated!");
+        $("#grd").empty();
+        var nrow = grid.length;
+        var ncol = grid[0].length;
+
+        for(var r = 0; r < nrow; r++) {
+          $("#grd").append("<tr>")
+          for(var c = 0; c < ncol; c++) {
+
+            var chr = "";
+
+            var rdigit = ""+r;
+            var cdigit = ""+c;
+            if (rdigit.length === 1) {
+              rdigit = "0"+rdigit;
+            }
+            if (cdigit.length === 1) {
+              cdigit = "0"+cdigit;
+            }
+
+            // Player
+              if(grid[r][c] === 0) {
+              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
+              chr = "&#9977;";
+            }
+            else if(grid[r][c] === 1) {
+              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
+              //console.log("Boat");
+              chr = "&#9973;";
+
+            }
+            else if(grid[r][c] === 2) {
+              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
+              //$('#powerUpBox').html('&#9973;');
+              //console.log("Light");
+              chr = "&#9889;";
+            }
+
+            $("#grd").append("<td>" + chr + "</td>")
+          }
+          $("#grd").append("</tr>")
+        }
+
+      });
+
+      $("#clearGrid").click(function() {
+        game.clearGrid();
+      });
+
+      var scale = 10000;
+          d3.select("#tankImg")
+          .data([1, 2, 3, 4])
+          .transition()
+          .duration(1750)
+          .attr("height", function(d) { return Math.sqrt(d * scale); });
+          //console.log("D " + d)
+          //console.log("I " + i)
+
+    });
+
+    function changedBackground(bgr) {
+      if (bgr === 1) {
+        $("table").css("background-image", "url('image1.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 2) {
+        $("table").css("background-image", "url('image.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 3) {
+        $("table").css("background-image", "url('image3.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 4) {
+        $("table").css("background-image", "url('image4.jpg')");
+        console.log("Changed Image");
+      }
+      else if (bgr === 5) {
+        $("#imgInp").change(function(){
+            readURL(this);
+        });
+        $("table").css("background-image", 'imgInp');
+        console.log("Changed Image " + imgInp.toString());
+      }
+    }
+
+
+    // Custom Image
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#blah').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$("#imgInp").change(function(){
+    readURL(this);
+});
+
+    </script>
+  </head>
+  <body>
+  <div id="screenBorder">
+    <h2 id="title">The Fighting Infantry</h2>
+    <!--Start Game-->
+    <div id="startScreen">
+    <div id="startScreenPress" style="z-index:2" class="coolText">PRESS</div>
+    <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
+    <div id="startScreenStart" style="z-index:2" class="coolText">START</div>
+  </div>
+
+    <!--End Game-->
+    <div id="endScreen" style="z-index:2">
+    <div id="endgameOverlay" style="z-index:2">Game Over</div>
+    <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name:</div>
+    <div id="nameBox" style="z-index:2" class="endBox">Something to fill the score</div>
+    <div id="finalScore" class="endBoxTitle" style="z-index:2">Final Score:</div>
+    <div id="finalScoreBox" style="z-index:2" class="endBox">Something to fill the score</div>
+    <div id="finalTime" class="endBoxTitle" style="z-index:2">Finish Time:</div>
+    <div id="finalTimeBox" style="z-index:2" class="endBox">Something to fill the score</div>
+    <div id="endGif" style="z-index:2"><img src="tank.gif" alt="" style="width:100px;height:100px;"></div>
+  </div>
+
+    <div id="gameBorder">
+    <table id="grd" style="z-index:1" background="image1.jpg">
+    </table>
+  </div>
+  <!-- Progressbar -->
+  <div id="healthTitle" class="boxTitle">Health:</div>
+  <div id="progressbar" class="box"></div>
+  <div id="levelTitle" class="boxTitle">Level:</div>
+  <div id="level" style="height:70px;width:70px" class="box"></div>
+  <div id="ScoreTitle" class="boxTitle">Score:</div>
+  <div id="score" style="height:70px;width:70px" class="box"></div>
+  <div id="powerupTitle" class="boxTitle">Powerup:</div>
+  <div id="powerUpBox" style="height:70px;width:70px" class="box"></div>
+  <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
+
+  <div id="backgroundSelect">
+  <h2>Background:</h2>
+  <ul style="width:130px;" id="menu">
+  	<li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
+  	<li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
+  	<li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
+  	<li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
+  	<li><div>Custom:</div>
+      <ul>
+        <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
+        <li><input type='file' id="imgInp" /><br>Use This Image</li>
+      </ul>
+    </li>
+  </ul>
+  </div>
+  <button id="gameOverButton" style="height:80px;width:80px">Game<br>Over</button>
+  </div>
+  <!-- Menu -->
+  </body>
+</html>
