@@ -7,25 +7,19 @@
   <script src="jquery-ui.js"></script>
   <script src="d3.min.js"></script>
   <link href="jquery-ui.css" rel="stylesheet">
-
   <script src="game.js"></script>
   <script>
     $(function() {
+      var playerName;
       var startButton = 0;
       var health = game.getHealthBar();
 
       $("#endScreen").css("display", "none");
-      $("#gameOverButton").click(function() {
-        $("#endScreen").css("display", "block");
-      });
-
       //Select Background Menu
       $("#menu").menu();
       // Grid Size
       game.createGrid(15, 10);
-
       var activeid = null;
-
       var moveTimeOut;
 
       // Key movements ( KEY DOWN )
@@ -42,6 +36,7 @@
         else if(e.keyCode == 38){ // up
           game.moveUp();
         }
+<<<<<<< HEAD
         else if(e.keyCode == 36){ // diagleftUp
           game.moveDiagLeftUp();
         }
@@ -56,6 +51,10 @@
         }
         else if(e.keyCode == 88){ // auto complete grid
           game.autoComplete();
+=======
+        else if(e.keyCode == 88){ // Shoot bullet
+          game.shoot();
+>>>>>>> e295dff1e63041dd7c93e92bf795c1a0a26b9138
         }
       });
 
@@ -103,32 +102,32 @@
 
       // Hover button color
       $("#button").mouseover(function() {
-        $("#button").css("background-image", "url('Launch_Button.png')");
-        /*if(startButton % 2 === 0 || startButton === 0){
+          $("#button").css("background-image", src='images/Launch_Button.png');
+          if(startButton % 2 === 0 || startButton === 0){
 
-          $(this).css("background-color", "darkgreen");
-        }
-        else{
-          $(this).css("background-color", "red");
-        } */
-      });
-      $("#button").mouseout(function() {
+            $(this).css(src="images/Launch_Button.", "darkgreen");
+          }
+          else{
+            $(this).css("background-color", "red");
+          }
+        });
+        $("#button").mouseout(function() {
 
-        if(startButton % 2 === 0 || startButton === 0){
-          $(this).css("background-color", "green");
-        }
-        else{
-          $(this).css("background-color", "crimson");
-        }
-      });
+          if(startButton % 2 === 0 || startButton === 0){
+            $(this).css("background-color", "green");
+          }
+          else{
+            $(this).css("background-color", "crimson");
+          }
+        });
 
       //var player1 = true;
       $("#button").click(function() {
         //Controller for playing a move
         if(startButton === 0){
+          playerName = $("#playerName").val()
           currentHealth(health);
           $('#button').text("Pause");
-          $('#button').css("background-color", "darkred");
           $("#backgroundSelect").css("display", "none");
           $("#startScreen").css("display", "none");
           game.startGame(); //Make sure there is a mute button too!
@@ -137,7 +136,6 @@
         }
         else if(startButton % 2 !== 0){
           $('#button').text("Resume");
-          $('#button').css("background-color", "green");
           game.setEnemySpeed(10000000000);
           game.getEnemySpeed(10000000000);
           startButton++;
@@ -145,7 +143,7 @@
         }
         else{
           $('#button').text("Pause");
-          $('#button').css("background-color", "red");
+          //$('#button').css("background-color", "red");
           game.setEnemySpeed(500);
           game.getEnemySpeed(500);
           console.log("Game already in progress.");
@@ -181,45 +179,37 @@
 
             // Player
             if(grid[r][c] === 0) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9977;');
               chr = "images/Bob_front.png";
               imgid = "bobimg";
             }
             else if(grid[r][c] === 1) {
-            //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9973;');
-            //console.log("Boat");
-              chr = "images/helicopter.png";
+
+              chr = "images/helicopter.gif";
               imgid = "powerup";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 2) {
-              //$("#R"+rdigit+"C"+cdigit).addClass("player").html('&#9889;');
-              //$('#powerUpBox').html('&#9973;');
-              //console.log("Light");
-              chr = "images/explosion.png";
+
+              chr = "images/explosion.gif";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 3) {
               chr = "images/health.png";
               imgid = "powerup";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 4) {
               chr = "images/quicksand.png";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 5) {
-              chr = "images/grenade.png";
+              chr = "images/b1.gif";
               imgid = "powerdown";
-              //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
+<<<<<<< HEAD
             else if(grid[r][c] === 6) {
               chr = "images/Sniper_Rifle2.png";
               imgid = "powerup";
@@ -227,14 +217,20 @@
             }
 
 
+=======
+            else if(grid[r][c] === 8) {
+              chr = "images/enemy.gif";
+              imgid = "bobimg";
+            }
+            else if(grid[r][c] === 9) {
+              chr = "images/TorchFlamesFierce.gif-c200";
+              imgid = "powerdown";
+            }
+>>>>>>> e295dff1e63041dd7c93e92bf795c1a0a26b9138
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
         }
-      });
-
-      $("#clearGrid").click(function() {
-        game.clearGrid();
       });
 
       var scale = 10000;
@@ -243,9 +239,6 @@
       .transition()
       .duration(1750)
       .attr("height", function(d) { return Math.sqrt(d * scale); });
-      //console.log("D " + d)
-      //console.log("I " + i)
-
     });
 
     function changedBackground(bgr) {
@@ -308,24 +301,27 @@
   <div id="screenBorder">
 
     <h2 id="title">The Fighting Infantry</h2>
-
     <!--Start Game-->
     <div id="startScreen">
       <div id="startScreenPress" style="z-index:2" class="coolText">PRESS</div>
-      <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
+      <div id="startGif" style="z-index:2"><img id="TwoSoldiers" src="images/two_soldiers.gif" alt="" style="width:250px;height:150px;"></div>
       <div id="startScreenStart" style="z-index:2" class="coolText">START</div>
+      <div id="name" style="z-index:2"  class="nameText">
+      <div id="enterName">Enter Your Name</div>
+      <input type="text" id="playerName" style="width:190px;height:25px;">
+    </div>
     </div>
 
     <!--End Game-->
     <div id="endScreen" style="z-index:2">
       <div id="endgameOverlay" style="z-index:2">Game Over</div>
-      <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name:</div>
-      <div id="nameBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalName" class="endBoxTitle" style="z-index:2">Player Name</div>
+      <div id="nameBox" style="z-index:2" class="endBox"></div>
       <div id="finalScore" class="endBoxTitle" style="z-index:2">Final Score:</div>
-      <div id="finalScoreBox" style="z-index:2" class="endBox">Something to fill the score</div>
+      <div id="finalScoreBox" style="z-index:2" class="endBox"></div>
       <div id="finalTime" class="endBoxTitle" style="z-index:2">Finish Time:</div>
-      <div id="finalTimeBox" style="z-index:2" class="endBox">Something to fill the score</div>
-      <div id="endGif" style="z-index:2"><img src="tank.gif" alt="" style="width:100px;height:100px;"></div>
+      <div id="finalTimeBox" style="z-index:2" class="endBox"></div>
+      <div id="endGif" style="z-index:2"><img src="images/armymen.gif" alt="" style="width:300px;height:200px;"></div>
     </div>
 
     <div id="gameBorder">
@@ -335,14 +331,14 @@
     <!-- Progressbar -->
     <div id="healthTitle" class="boxTitle">Health:</div>
     <div id="progressbar" class="box"></div>
-    <div id="levelTitle" class="boxTitle">Level:</div>
-    <div id="level" style="height:70px;width:70px" class="box"></div>
     <div id="ScoreTitle" class="boxTitle">Score:</div>
-    <div id="score" style="height:70px;width:70px" class="box"></div>
+    <div id="score" style="height:100px;width:100px" class="box"></div>
     <div id="powerupTitle" class="boxTitle">Powerup:</div>
-    <div id="powerUpBox" style="height:70px;width:70px" class="box"><tr><td></td></tr></div>
+    <div id="powerUpBox" style="height:100px;width:100px" class="box"><tr><td></td></tr></div>
+
+    <button id="resetButton" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px" ><ahref='#' onclick='location.reload(true); return false;'>Reset</a></button>
+    <!-- This is to include an image in button -->
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
-    <button id="resetButton" style="height:80px;width:80px"><a href='#' onclick='location.reload(true); return false;'>Reset</a></button>
     <!-- This is to include an image in button -->
     <!--<div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="images/Lauch_Button.png"></button></div>-->
 
