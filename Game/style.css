@@ -14,41 +14,27 @@
 }
 
 .powerdown {
-  width: 50%;
-  height: 70%;
-}
-
-.powerdown {
   width: 80%;
   height: 80%;
   }
 
-.powerup {
-  width: 70%;
-  height: 100%;
-}
-
 .scaledPower {
-  margin-left: 8px;
+  margin-left: 6px;
   margin-top: 8px;
-  width: 150%;
-  height: 150%;
+  width: 250%;
+  height: 250%;
 }
 
 body {
   background-image: url("digital_camo.jpg");
-  /*background-color: grey; */
 }
 
 td, th, td {
-  /*border: 1px solid black;*/ /* DEFAULT CELL BORDER */
   border-collapse: collapse;
 }
 
 td {
  display: inline-block;
- /*background-color: white;*/
- /*border: solid 2px lightgrey; /* CELL BORDER */
  width: 35px;
  height: 35px;
  float: left;
@@ -80,8 +66,8 @@ td {
  margin-top: 110px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
 }
 
 #finalScoreTitle {
@@ -98,8 +84,8 @@ td {
  margin-top: 210px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
 }
 
 #finalTime {
@@ -112,8 +98,13 @@ td {
  margin-top: 310px;
  margin-left: 340px;
  text-align: center;
- background: black; /* fallback for old browsers */
- border: solid 3px white;
+ background: white; /* fallback for old browsers */
+ border: solid 3px black;
+}
+
+#name {
+  margin-top: 440px;
+  margin-left: 340px;
 }
 
 
@@ -126,6 +117,8 @@ td {
 }
 
 .endBox {
+  width: 200px;
+  text-align: center;
   position: absolute;
   box-shadow: 7px 1px 20px;
   border-radius: 15%;
@@ -133,15 +126,16 @@ td {
 
 
 #backgroundSelect {
-  margin-top: -400px;
+  margin-top: -460px;
   margin-left: 665px;
   font: arial;
 }
 
-#gameOverButton {
-  position:absolute;
-  margin-left: 675px;
-  margin-top: 100px;
+#backgroundSelect h2 {
+  font-family: 'Brush Script MT';
+  font-size: 35px;
+  color: black;
+  margin-left: -10px;
 }
 
 #menu {
@@ -154,60 +148,39 @@ td {
   background-color: white;
 }
 
-
-#backgroundSelect h2 {
-  color: black;
-  margin-left: -10px;
-}
-
 .player {
   text-align: center;
-  /*display: inline-block;
-  background-color: grey;
-  border: solid 2px lightgrey;
-  width: 25px;
-  height: 25px;
-  float: left;
-  color: black;*/
 }
 
 #title {
-  color: darkred;
+  color: darkgreen;
   font-size: 50px;
   text-align: center;
   margin-top: 0px;
+  text-shadow: 0 1px 0 #ccc,
 }
 
 #powerUpBox {
   position: relative;
   text-align: center;
   /*background-color: #FAF0E6;*/
-  font-size: 50px;
+  font-size: 80px;
   background: lightgreen; /* fallback for old browsers */
   border: solid 3px black;
 }
 
 #score {
+  font-family: 'Brush Script MT';
   position: relative;
   text-align: center;
-  /*background-color: #FAF0E6;*/
-  font-size: 60px;
-  background: orange; /* fallback for old browsers */
-  border: solid 3px black;
-}
-
-#level {
-  margin-top:0px;
-  position: relative;
-  text-align: center;
-  /*background-color: #FAF0E6;*/
-  background: lightblue; /* fallback for old browsers */
+  font-size: 70px;
+  background: orange;
   border: solid 3px black;
 }
 
 .boxTitle{
-  font-size: 20px;
-  font-family: sans-serif;
+  font-size: 35px;
+  font-family: 'Brush Script MT';
   margin-left: 95px;
   float: top;
   padding: 0px;
@@ -216,7 +189,7 @@ td {
 }
 
 .box {
-  margin-left: 90px;
+  margin-left: 75px;
   float: top;
   margin-bottom: 30px;
   box-shadow: 7px 1px 20px;
@@ -225,7 +198,6 @@ td {
 
 table {
   position: absolute;
-  /*background-image: url("image1.jpg");*/
   background-size: 100% 100%;
   border-collapse: collapse;
   margin-top: 0px;
@@ -250,9 +222,25 @@ table {
   background: linear-gradient(to bottom, #627d4d 0%,#1f3b08 100%);
 }
 
-#button {
-  background-color: green;
-  margin-left: 50px;
+
+#launch_button {
+  width: 40%;
+  height: 40%;
+  background-image: url("images/Launch_Button.png");
+
+}
+
+#abort_button {
+  width: 40%;
+  height: 40%;
+  background-image: url("images/Abort_Button.png");
+}
+
+#resetButton {
+  position: absolute;
+  text-decoration: none;
+  background-color: red;
+  margin-left: 660px;
   float: left;
   font-size: 25px;
   color: black;
@@ -264,8 +252,8 @@ table {
 
 #endGif {
   position: absolute;
-  margin-left: 370px;
-  margin-top: 370px;
+  margin-left: 300px;
+  margin-top: 350px;
 }
 
 #gameover {
@@ -280,8 +268,10 @@ table {
 
 #startGif {
   position: absolute;
-  margin-left: 325px;
-  margin-top: 170px;
+  margin-left: 305px;
+  margin-top: 130px;
+  width: 50%;
+  height: inherit;
 }
 
 .coolText {
@@ -290,6 +280,18 @@ table {
   letter-spacing: 5px;
   font: 45px 'MisoRegular';
   position: absolute;
+}
+
+.nameText {
+  color: yellow;
+  text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px black, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px black;
+  letter-spacing: 1px;
+  font: 25px 'MisoRegular';
+  position: absolute;
+}
+
+#playerName {
+  text-align: center;
 }
 
 #startScreenPress {

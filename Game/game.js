@@ -1,11 +1,23 @@
 var game = (function() {
 
   console.log("Initilizing game.js");
-  var count = 0;//FOR SCORE
-  //var fallSpeed = 500;
-  var enemySpeed = 500;
+  // Audio
+  var explo = new Audio('sounds/explosion.wav');
+  var heli = new Audio('sounds/helicopter.wav');
+  var sand = new Audio('sounds/sand.wav');
+  var bullet = new Audio('sounds/bullet.wav');
+  var heal = new Audio('sounds/Heal8-Bit.ogg');
+  var gren = new Audio('sounds/Bomb_Exploding.wav')
+  var finTime = 0;
+  // Counts the score
+  var count = 0;
+  var enemySpeed = 750;
   var health = 100;
   var currentPower, powerName;
+  var rand = Math.floor(Math.random() * 10);;
+
+
+
 
   var canMove = false;
   var delayInterval;
@@ -30,44 +42,6 @@ var game = (function() {
   function updateScore() {
     return count.toString();
   }
-
-  //Clear row function
-  function clearRow(){
-    for(var i = 0; i <= 10; i++) {
-      if(i === 10){
-        for(var j = 0; j < 10; j++) {
-          grid[activerow][j] = null;
-        }
-        count+=10;
-        //$('#score').text(updateScore());
-        //console.log("Score is " + count);
-
-
-        //grid[activerow][activecol] = false;
-        //grid[activerow][activecol+1] = false;
-
-        // DROP REMAINING BLOCKS
-        for(var k = grid.length-1; k > 0; k--) {
-
-          for(var l = 10; l >= 0; l--) {
-            if(grid[k][l] === true) {
-              grid[k+1][l] = true;
-              grid[k][l] = null;
-            }
-          }
-
-        }
-      }
-      else if(grid[activerow][i] === true) {
-        console.log("There is a block in row " + i);
-      }
-      else {
-        break;
-      }
-    }
-  }
-
-
 
   // Enemy Speed
   function setEnemySpeed(enemySpeed2) {
@@ -95,81 +69,88 @@ var game = (function() {
   var enemycol = null;
 
   function startGame() {
+    setInterval(function() {
+      finTime++;
+    }, 1000);
     createBlock(0, 5);
-    createEnemy(14, 5);
+    createEnemy(14, rand);
   }
 
   function findPowerUp(row, col){
 
     if(grid[activerow+row][activecol+col] === 1){
+      heli.play();
       powerImage = 'images/helicopter.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Helicopter";
       stopTime = 0;
-      //playerTimeOut = 0;
 
-      // This code jumps player 3 blocks
+      if(activerow+2 < 14) {
+        console.log("You board the helicopter, you sail forward 2 tiles.")
+        grid[activerow+row][activecol+col] = null;
+        grid[activerow][activecol] = null;
+        activerow = activerow + 2;
+        grid[activerow][activecol] = 0;
+        findPowerUp(1, 0)
+      }
 
-      console.log("You board the boat, you sail forward 2 tiles.")
-      grid[activerow+row][activecol+col] = null;
-      grid[activerow][activecol] = null;
-      activerow = activerow + 2;
-      grid[activerow][activecol] = 0;
-
+      else if(activerow+2 === 14) {
+        grid[activerow][activecol] = null;
+        grid[13][activecol] = 0;
+        findPowerUp(1, 0)
+      }
+      else {
+        // Helicopter was on last row
+      }
       count++;
     }
     else if(grid[activerow+row][activecol+col] === 2){
-      powerImage = 'images/explosion.png';
+      explo.play();
+      powerImage = 'images/explosion.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       health = (health - 15);
-      console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
+      console.log("You encounter an explosion! , you lost 15hp!\nCurrent health is: " + health)
       stopTime = 1000;
-      //console.log("There is a " + currentPower + " in front of you!");
-      count-=1;
+      count-=3;
     }
     else if(grid[activerow+row][activecol+col] === 3){
+      heal.play();
       powerImage = 'images/health.png';
       powerClass = 'scaledPower'
+      console.log("You gain " + health + " hp!")
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       if(health <= 90) {
       health = (health + 10);
     }
-    /*  if(health <= 90) {
-      health = (health + 10);
-    } */
-
       // If the health will give you over 100% then we make sure it only gives you the amount that will put you at 100
       else if(health > 90 && health < 100) {
         health = (health + (100-health));
       }
-
-      console.log("Struck by lightning, you lost 15hp!\nCurrent health is: " + health)
       stopTime = 500;
-      //console.log("There is a " + currentPower + " in front of you!");
       count+=1;
     }
     else if(grid[activerow+row][activecol+col] === 4){
+      sand.play();
       powerImage = 'images/quicksand.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      //currentPower = 'images/helicopter.png';
       powerName = "Quicksand";
-      //playerTimeOut = 2000;
       clearInterval(delayInterval);
       stopTime = 2000;
-      //console.log("There is a " + currentPower + " in front of you!");
-
-      // This code jumps player 3 blocks
-      /*
-      console.log("You board the boat, you sail forward 2 tiles.")
-      grid[activerow][activecol] = null;
-      activerow = activerow + 3;
-      grid[activerow][activecol] = 0;
-      */
+      count-=1;
+    }
+    else if(grid[activerow+row][activecol+col] === 5){
+      gren.play();
+      powerImage = 'images/b1.gif';
+      powerClass = 'scaledPower'
+      currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+      powerName = "Grenade";
+      playerTimeOut = 0;
       count++;
     }
+    // If no power up default speed is set
     else if(grid[activerow+row][activecol+col] === null) {
       stopTime = 500;
     }
@@ -222,6 +203,14 @@ var game = (function() {
         //console.log(activerow);
         //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
+        if(activerow === 14) {
+          clearGrid();
+          console.log($("#foodName").val())
+          $("#nameBox").html($("#playerName").val());
+          $("#finalScoreBox").html(count);
+          $("#finalTimeBox").html(finTime + " Seconds");
+          $("#endScreen").css("display", "block");
+        }
         notify();
       }
     }
@@ -243,64 +232,39 @@ var game = (function() {
     }
   }
 
-  function moveDiagLeftDown() {
-    if (activerow !== null && activecol !== null && activerow+1 >= 0 && activerow+1 <= 14 && grid[activerow+1][activecol] !== true
-    && activecol-1 >= 0 && activecol-1 <= 9 && grid[activerow][activecol-1] !== true) {
-      grid[activerow][activecol] = null;
-      activerow++;
-      activecol--;
-      grid[activerow][activecol] = 0;
-      console.log(activerow)
+  function shoot() {
+      bullet.play();
+      var bulletRow = activerow;
+      var bulletCol = activecol;
+      stopTime = 500;
+      clearInterval(shootInterval);
+      var shootInterval = setInterval(function() {
+          // While the bullet falls we cannot move
+          if (bulletRow < 14) {
+              canMove = false;
+              //waitBeforeMove(3000)
+              bulletRow++;
+              grid[bulletRow][bulletCol] = 9;
+              console.log("Bullet is in row " + bulletRow);
+              notify();
+              grid[bulletRow][bulletCol] = null;
 
-      findPowerUp(1, 0);
-    }
-  }
-
-  function moveDiagRightDown() {
-    if (activerow !== null && activecol !== null && activerow+1 >= 0 && activerow+1 <= 14 && grid[activerow+1][activecol] !== true
-    && activecol+1 >= 0 && activecol+1 <= 9 && grid[activerow][activecol+1] !== true) {
-      grid[activerow][activecol] = null;
-      activerow++;
-      activecol++;
-      grid[activerow][activecol] = 0;
-      console.log(activerow)
-
-      findPowerUp(1, 0);
-    }
-  }
-
-  function moveDiagLeftUp() {
-    if (activerow !== null && activecol !== null && activerow-1 >= 0 && activerow-1 <= 14 && grid[activerow-1][activecol] !== true
-    && activecol-1 >= 0 && activecol-1 <= 9 && grid[activerow][activecol-1] !== true) {
-      grid[activerow][activecol] = null;
-      activerow--;
-      activecol--;
-      grid[activerow][activecol] = 0;
-      console.log(activerow)
-
-      findPowerUp(1, 0);
-    }
-  }
-
-  function moveDiagRightUp() {
-    if (activerow !== null && activecol !== null && activerow-1 >= 0 && activerow-1 <= 14 && grid[activerow-1][activecol] !== true
-    && activecol+1 >= 0 && activecol+1 <= 9 && grid[activerow][activecol+1] !== true) {
-      grid[activerow][activecol] = null;
-      activerow--;
-      activecol++;
-      grid[activerow][activecol] = 0;
-      console.log(activerow)
-
-      findPowerUp(1, 0);
-    }
-  }
-
-  function autoComplete() {
-    for(var i = grid.length-1; i > 0; i--) {
-      for(var j = 10; j >= 0; j--) {
-        grid[i][j] = true;
-      }
-    }
+              if(grid[bulletRow][bulletCol] === grid[enemyrow][enemycol]){
+                console.log("Bullet collision with enemy");
+                count += 10;
+                rand = Math.floor(Math.random() * 10);
+                createEnemy(14, rand);
+              }
+          }
+          // If the bullet is on the last row we clear it and allow player to move again
+          else if(bulletRow === 14) {
+            canMove = true;
+            console.log("Removing bullet on row " + bulletRow + " col " + bulletCol)
+            grid[bulletRow][bulletCol] = null;
+            bulletRow++;
+            notify();
+          }
+      }, 250);
   }
 
   function randomPiece(num) {
@@ -308,21 +272,19 @@ var game = (function() {
     return rng;
   }
 
-  // 1 = Helicopter
-  // 2 = Explosion
-  // 3 = Health
+  // 1 = Helicopter 2 = Explosion 3 = Health 4 == Heart 5 = Grenade
   function loadPowerups() {
-    var rngArr = [2, null, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
+    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
         rng = randomPiece(25);
-        if(!grid[i][j]){
-          grid[i][j] = rngArr[rng];
-          console.log("Filled tile");
+          if(!grid[i][j]){
+            grid[i][j] = rngArr[rng];
+            console.log("Filled tile");
+          }
         }
       }
     }
-  }
 
   function createBlock(row, col){
     //  $('#score').text(updateScore());
@@ -334,33 +296,14 @@ var game = (function() {
     notify();
     var interval = setInterval(function() {
       if (activerow+1 === grid.length /*|| grid[activerow+1][activecol] === true*/) {
-        // we reached the bottom
         clearInterval(interval);
-        //createBlock(0, 4); FOR ENEMY MOVEMENT
       }
       notify();
-      //Clear a complete row
-      clearRow();
     }, enemySpeed);
-  }
-
-  function enemyMove() {
-    var dir;
-    var hPos = 0;
-    var vPos = 0;
-    dir = Math.floor(Math.random() * 2);
-    if(dir === 0) { // Left
-      hPos = -1;
-    }
-    else if(dir === 1) { // Right
-      hPos = 1;
-    }
-    return hPos;
   }
 
   function createEnemy(row, col){
     var enemyDir;
-    //  $('#score').text(updateScore());
     enemyrow = row;
     console.log("THIS IS THE ENEMYCOL " + enemycol)
     enemycol = col;
@@ -375,7 +318,7 @@ var game = (function() {
         clearInterval(enemyInterval);
         if (enemyrow !== 16) {
           // Increase fallspeed based on these conditions
-          enemySpeed = 10000000000;
+          enemySpeed = 500; // 1000000000
           count-=1;
           console.log(enemyrow)
           createEnemy(14, 5);
@@ -386,37 +329,45 @@ var game = (function() {
         }
       }
       else {
-        //  console.log("ENEMY COL " + enemycol)
         grid[enemyrow][enemycol] = null;
         if(enemyDir === 0 && enemycol) {
           enemyrow--;
-          grid[enemyrow][enemycol] = 0;
+          grid[enemyrow][enemycol] = 8;
         }
         else if(enemyDir === 1 && enemycol >= 0 && enemycol-1 >= 0 && enemycol+1 <= 9) {
           enemycol--;
-          grid[enemyrow][enemycol] = 0;
+          grid[enemyrow][enemycol] = 8;
         }
         else if(enemyDir === 2 && enemycol < 10 && enemycol-1 >= 0 && enemycol+1 <= 9) {
-          enemycol++;
-          grid[enemyrow][enemycol] = 0;
+        //  enemycol++;
+          grid[enemyrow][enemycol] = 8;
         }
         else{
-          console.log("Attempted to go Out of bounds");
+          console.log("Enemy attempted to go Out of bounds");
           if(enemycol === 9){
             enemycol--;
-            grid[enemyrow][enemycol] = 0;
+            grid[enemyrow][enemycol] = 8;
           }
           else if(enemycol === 0){
             enemycol++;
-            grid[enemyrow][enemycol] = 0;
+            grid[enemyrow][enemycol] = 8;
           }
         }
       }
     }, enemySpeed);
   }
 
-  var listeners = [];
+  function clearGrid() {
+    for(var i = 14; i >= 0; i--) {
+      for(var j = 10; j >= 0; j--) {
+        grid[i][j] = null;
 
+      }
+    }
+  }
+
+
+  var listeners = [];
   function addListener(cb) {
     listeners.push(cb);
     notify();
@@ -436,17 +387,13 @@ var game = (function() {
     moveRight: moveRight,
     moveDown: moveDown,
     moveUp: moveUp,
-    moveDiagLeftDown: moveDiagLeftDown,
-    moveDiagRightDown: moveDiagRightDown,
-    moveDiagRightUp: moveDiagRightUp,
-    moveDiagLeftUp: moveDiagLeftUp,
-    autoComplete: autoComplete,
-    clearRow: clearRow,
     updateScore: updateScore,
     createGrid: createGrid,
     setEnemySpeed: setEnemySpeed,
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
-    getHealthBar: getHealthBar
+    getHealthBar: getHealthBar,
+    shoot: shoot,
+    clearGrid, clearGrid
   };
 })();
