@@ -84,7 +84,7 @@ var game = (function() {
 
     if(grid[activerow+row][activecol+col] === 1){
       heli.play();
-      powerImage = 'images/helicopter.png';
+      powerImage = 'images/helicopter.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Helicopter";

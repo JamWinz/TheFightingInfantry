@@ -36,25 +36,8 @@
         else if(e.keyCode == 38){ // up
           game.moveUp();
         }
-<<<<<<< HEAD
-        else if(e.keyCode == 36){ // diagleftUp
-          game.moveDiagLeftUp();
-        }
-        else if(e.keyCode == 33){ // diagrightUp
-          game.moveDiagRightUp();
-        }
-        else if(e.keyCode == 35){ // diagleftdown
-          game.moveDiagLeftDown();
-        }
-          else if(e.keyCode == 34){ // diagrightdown
-          game.moveDiagRightDown();
-        }
-        else if(e.keyCode == 88){ // auto complete grid
-          game.autoComplete();
-=======
         else if(e.keyCode == 88){ // Shoot bullet
           game.shoot();
->>>>>>> e295dff1e63041dd7c93e92bf795c1a0a26b9138
         }
       });
 
@@ -205,19 +188,17 @@
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 5) {
-              chr = "images/b1.gif";
+              chr = "images/grenade.png";
               imgid = "powerdown";
               $("#powerUpBox").html(currentPower);
             }
-<<<<<<< HEAD
+
             else if(grid[r][c] === 6) {
               chr = "images/Sniper_Rifle2.png";
               imgid = "powerup";
               $("#powerUpBox").html(currentPower);
             }
 
-
-=======
             else if(grid[r][c] === 8) {
               chr = "images/enemy.gif";
               imgid = "bobimg";
@@ -226,7 +207,7 @@
               chr = "images/TorchFlamesFierce.gif-c200";
               imgid = "powerdown";
             }
->>>>>>> e295dff1e63041dd7c93e92bf795c1a0a26b9138
+
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
