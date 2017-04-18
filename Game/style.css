@@ -14,19 +14,9 @@
 }
 
 .powerdown {
-  width: 50%;
-  height: 70%;
-}
-
-.powerdown {
   width: 80%;
   height: 80%;
   }
-
-.powerup {
-  width: 70%;
-  height: 100%;
-}
 
 .scaledPower {
   margin-left: 6px;
@@ -232,7 +222,6 @@ table {
   background: linear-gradient(to bottom, #627d4d 0%,#1f3b08 100%);
 }
 
-
 #button {
   /*width: 100%;
   height: 100%;*/
@@ -263,8 +252,8 @@ table {
 
 #endGif {
   position: absolute;
-  margin-left: 370px;
-  margin-top: 370px;
+  margin-left: 300px;
+  margin-top: 350px;
 }
 
 #gameover {
@@ -279,8 +268,10 @@ table {
 
 #startGif {
   position: absolute;
-  margin-left: 325px;
-  margin-top: 170px;
+  margin-left: 305px;
+  margin-top: 130px;
+  width: 50%;
+  height: inherit;
 }
 
 .coolText {

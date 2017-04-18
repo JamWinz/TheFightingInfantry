@@ -6,6 +6,9 @@ var game = (function() {
   var heli = new Audio('sounds/helicopter.wav');
   var sand = new Audio('sounds/sand.wav');
   var bullet = new Audio('sounds/bullet.wav');
+  var heal = new Audio('sounds/Heal8-Bit.ogg');
+  var gren = new Audio('sounds/Bomb_Exploding.wav')
+
   var finTime = 0;
   // Counts the score
   var count = 0;
@@ -105,7 +108,7 @@ var game = (function() {
     }
     else if(grid[activerow+row][activecol+col] === 2){
       explo.play();
-      powerImage = 'images/explosion.png';
+      powerImage = 'images/explosion.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       health = (health - 15);
@@ -114,6 +117,7 @@ var game = (function() {
       count-=3;
     }
     else if(grid[activerow+row][activecol+col] === 3){
+      heal.play();
       powerImage = 'images/health.png';
       powerClass = 'scaledPower'
       console.log("You gain " + health + " hp!")
@@ -139,7 +143,8 @@ var game = (function() {
       count-=1;
     }
     else if(grid[activerow+row][activecol+col] === 5){
-      powerImage = 'images/grenade.png';
+      gren.play();
+      powerImage = 'images/b1.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Grenade";
@@ -255,7 +260,7 @@ var game = (function() {
           // If the bullet is on the last row we clear it and allow player to move again
           else if(bulletRow === 14) {
             canMove = true;
-            console.log("Removing bulelt on row " + bulletRow + " col " + bulletCol)
+            console.log("Removing bullet on row " + bulletRow + " col " + bulletCol)
             grid[bulletRow][bulletCol] = null;
             bulletRow++;
             notify();
