@@ -1,3 +1,26 @@
+/*4/15/17 SF inserts*/
+#animate {
+    position: relative;
+    display: none
+    border: 1px solid green;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+
+}
+
+#animate2 {
+    background-image: url("images/grenade.png");
+    position: relative;
+    border; 1px solid green;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+
+}
+/*4/15/17 SF inserts end here*/
+
+
 .bobimg{
   width: 50%;
   height: 75%;

@@ -57,9 +57,6 @@
         else if(e.keyCode == 88){ // auto complete grid
           game.autoComplete();
         }
-        else if(e.keyCode == 83){ // auto complete grid
-          game.shoot();
-        }
       });
 
       // Player starting hp (Creates 100% health, the if statement uses change to change the health based on powerup/down)
@@ -168,6 +165,7 @@
 
         //var currPower = "<td>" + "<img src='" + chr + "'>" + "</td>";
         for(var r = 0; r < nrow; r++) {
+
           $("#grd").append("<tr>")
           for(var c = 0; c < ncol; c++) {
             var chr = "";
@@ -222,6 +220,13 @@
               //currentPower = "<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>"
               $("#powerUpBox").html(currentPower);
             }
+            else if(grid[r][c] === 6) {
+              chr = "images/Sniper_Rifle2.png";
+              imgid = "powerup";
+              $("#powerUpBox").html(currentPower);
+            }
+
+
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
@@ -292,7 +297,16 @@
   </script>
 </head>
 <body>
+  <!--4/15/17 SF inserts  -->
+  <div id="animate"><img id="grenade" src="images/grenade.png" style="z-index:3" width="20px" alt="" ></div>
+
+    <!--4/15/17 inserts end here   -->
+
+  <!-- Menu -->
+
+
   <div id="screenBorder">
+
     <h2 id="title">The Fighting Infantry</h2>
 
     <!--Start Game-->
@@ -349,6 +363,5 @@
       </ul>
     </div>
   </div>
-  <!-- Menu -->
 </body>
 </html>

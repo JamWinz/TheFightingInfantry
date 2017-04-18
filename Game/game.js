@@ -1,3 +1,6 @@
+
+
+
 var game = (function() {
 
   console.log("Initilizing game.js");
@@ -109,7 +112,7 @@ var game = (function() {
       stopTime = 0;
       // This code jumps player 3 blocks
 
-      if(activerow+2 < 14) {
+      if(activerow+2 <= 14) {
         console.log("You board the boat, you sail forward 2 tiles.")
         grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
@@ -119,10 +122,12 @@ var game = (function() {
       }
       // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
       else {
+        grid[activerow+row][activecol+col] = null;
         grid[activerow][activecol] = null;
-        grid[13][activecol] = 0;
+        grid[14][activecol] = 0;
         findPowerUp(1, 0)
       }
+
       count++;
     }
     else if(grid[activerow+row][activecol+col] === 2){
@@ -176,29 +181,49 @@ var game = (function() {
       */
       count++;
     }
-    // new power up SF 4.11.17
     else if(grid[activerow+row][activecol+col] === 5){
+
+      // this powerup takes away 2 points and throws the grenade to the right of the screen
+      // TO DO: read the position of the grenade and move it instead of it showing at top of the screen
+      // this powerup has a bug if it is the first powerup to be grabbed
       powerImage = 'images/grenade.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      //currentPower = 'images/helicopter.png';
-      powerName = "Kill";
+      powerName = "Grenade";
       playerTimeOut = 0;
-      //console.log("There is a " + currentPower + " in front of you!");
 
-      // This code jumps player 3 blocks
-      /*
-      console.log("You board the boat, you sail forward 2 tiles.")
-      grid[activerow][activecol] = null;
-      activerow = activerow + 3;
-      grid[activerow][activecol] = 0;
-      */
-      count++;
+      /* 4/15/17 SF inserts */
+
+
+      $(document).ready(function(e) {
+          var width = "+=" + $(document).width();
+          $("#animate").animate({
+          left: width
+        }, 5000, function() {
+          $("#animate").css("display", "none");
+        });
+      });
+      count-=2;
     }
-    // If no power up default speed is set
+    else if(grid[activerow+row][activecol+col] === 6){
+      // this powerup gives you +2 points and it changes Bob's image
+      powerImage = 'images/Sniper_Rifle2.png';
+      powerClass = 'scaledPower'
+      currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
+      powerName = "Sniper_rifle";
+
+      //todo
+
+      stopTime = 500;
+      count+=2;
+    }
+
+      /* 4/15/17 SF inserts end here */
+
     else if(grid[activerow+row][activecol+col] === null) {
       stopTime = 500;
     }
+
     console.log("PLAYER TIMEOUT: " + stopTime);
     return stopTime;
   }
@@ -321,10 +346,6 @@ var game = (function() {
     }
   }
 
-  function shoot() {
-    grid[activerow+1][activecol] = 2;
-  }
-
   function autoComplete() {
     for(var i = grid.length-1; i > 0; i--) {
       for(var j = 10; j >= 0; j--) {
@@ -342,7 +363,7 @@ var game = (function() {
   // 2 = Explosion
   // 3 = Health
   function loadPowerups() {
-    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, null, 4, null, null, null, 4, null, null, null, null, 2, 2];
+    var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, 6, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
       for(var j = 0; j < 10; j++) {
         rng = randomPiece(25);
@@ -479,6 +500,5 @@ var game = (function() {
     getEnemySpeed: getEnemySpeed,
     setHealthBar: setHealthBar,
     getHealthBar: getHealthBar,
-    shoot: shoot
   };
 })();
