@@ -8,6 +8,7 @@ var game = (function() {
   var bullet = new Audio('sounds/bullet.wav');
   var heal = new Audio('sounds/Heal8-Bit.ogg');
   var gren = new Audio('sounds/Bomb_Exploding.wav')
+
   var finTime = 0;
   // Counts the score
   var count = 0;

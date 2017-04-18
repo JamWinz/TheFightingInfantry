@@ -7,7 +7,6 @@
   <script src="jquery-ui.js"></script>
   <script src="d3.min.js"></script>
   <link href="jquery-ui.css" rel="stylesheet">
-
   <script src="game.js"></script>
   <script>
     $(function() {
@@ -166,11 +165,13 @@
               imgid = "bobimg";
             }
             else if(grid[r][c] === 1) {
+
               chr = "images/helicopter.gif";
               imgid = "powerup";
               $("#powerUpBox").html(currentPower);
             }
             else if(grid[r][c] === 2) {
+
               chr = "images/explosion.gif";
               imgid = "powerdown";
               $("#powerUpBox").html(currentPower);
@@ -300,7 +301,9 @@
 
     <button id="resetButton" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px" ><ahref='#' onclick='location.reload(true); return false;'>Reset</a></button>
     <!-- This is to include an image in button -->
-    <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="Launch_Button.png"></button></div>
+    <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
+    <!-- This is to include an image in button -->
+    <!--<div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="images/Lauch_Button.png"></button></div>-->
 
     <!-- Change Background -->
     <div id="backgroundSelect">

@@ -222,18 +222,18 @@ table {
   background: linear-gradient(to bottom, #627d4d 0%,#1f3b08 100%);
 }
 
-
-#launch_button {
-  width: 40%;
-  height: 40%;
-  background-image: url("images/Launch_Button.png");
-
-}
-
-#abort_button {
-  width: 40%;
-  height: 40%;
-  background-image: url("images/Abort_Button.png");
+#button {
+  /*width: 100%;
+  height: 100%;*/
+  background-color: green;
+  margin-left: 50px;
+  float: left;
+  font-size: 25px;
+  color: black;
+  border-radius: 50%;
+  font-weight: bold;
+  border: solid 5px black;
+  box-shadow: 6px 5px 30px;
 }
 
 #resetButton {
