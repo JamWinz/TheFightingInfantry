@@ -195,6 +195,7 @@ td {
   font-size: 80px;
   background: lightgreen; /* fallback for old browsers */
   border: solid 3px black;
+  margin-left: 60px;
 }
 
 #score {
@@ -204,12 +205,12 @@ td {
   font-size: 70px;
   background: orange;
   border: solid 3px black;
+  margin-left: 60px;
 }
 
 .boxTitle{
   font-size: 35px;
   font-family: 'Brush Script MT';
-  margin-left: 95px;
   float: top;
   padding: 0px;
   font-weight: bold;
