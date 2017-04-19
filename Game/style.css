@@ -198,6 +198,12 @@ td {
   margin-left: 60px;
 }
 
+.keys {
+  position: absolute;
+  margin-left: 655px;
+  margin-top: -245px;
+}
+
 #score {
   font-family: 'Brush Script MT';
   position: relative;
