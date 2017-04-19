@@ -298,7 +298,7 @@ table {
 #startGif {
   position: absolute;
   margin-left: 305px;
-  margin-top: 130px;
+  margin-top: 250px;
   width: 50%;
   height: inherit;
 }
@@ -330,7 +330,7 @@ table {
 
 #startScreenStart {
   margin-left: 350px;
-  margin-top: 280px;
+  margin-top: 180px;
 }
 
 #progressbar {
