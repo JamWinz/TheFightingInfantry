@@ -75,7 +75,7 @@
 
         // Game over
         else {
-          $("#endScreen").css("display", "block"),
+        //  $("#endScreen").css("display", "block"),
           $( "#progressbar" ).progressbar({
             value: health,
             change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
@@ -195,7 +195,7 @@
 
             else if(grid[r][c] === 6) {
               chr = "images/Sniper_Rifle2.png";
-              imgid = "powerup";
+              imgid = "helicopterup";
               $("#powerUpBox").html(currentPower);
             }
 
@@ -209,6 +209,7 @@
             }
 
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
+            //$("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
           $("#grd").append("</tr>")
         }
@@ -224,7 +225,7 @@
 
     function changedBackground(bgr) {
       if (bgr === 1) {
-        $("table").css("background-image", "url('image1.jpg')");
+        $("table").css("background-image", "url('image3.jpg')");
         console.log("Changed Image");
       }
       else if (bgr === 2) {
@@ -232,7 +233,7 @@
         console.log("Changed Image");
       }
       else if (bgr === 3) {
-        $("table").css("background-image", "url('image3.jpg')");
+        $("table").css("background-image", "url('image1.jpg')");
         console.log("Changed Image");
       }
       else if (bgr === 4) {
@@ -306,7 +307,7 @@
     </div>
 
     <div id="gameBorder">
-      <table id="grd" style="z-index:1" background="image1.jpg"></table>
+      <table id="grd" style="z-index:1" background="image3.jpg"></table>
     </div>
 
     <!-- Progressbar -->
@@ -316,7 +317,7 @@
     <div id="score" style="height:100px;width:100px" class="box"></div>
     <div id="powerupTitle" style="margin-left: 60px" class="boxTitle">Powerup:</div>
     <div id="powerUpBox" style="height:100px;width:100px" class="box"><tr><td></td></tr></div>
-
+    <div id="keys" class="keys"><img src="images/move.png" alt="" style="height:210px;width:150px"></div>
     <button id="resetButton" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px" ><ahref='#' onclick='location.reload(true); return false;'>Reset</a></button>
     <!-- This is to include an image in button -->
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
@@ -327,9 +328,9 @@
     <div id="backgroundSelect">
       <h2>Background:</h2>
       <ul style="width:130px;" id="menu">
-        <li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Field</div></li>
+        <li><div id="bgr1" href="javascript:void(0)" onclick="changedBackground(1)">Battlefield</div></li>
         <li><div id="bgr2" href="javascript:void(0)" onclick="changedBackground(2)">Space</div></li>
-        <li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Battlefield</div></li>
+        <li><div id="bgr3" href="javascript:void(0)" onclick="changedBackground(3)">Field</div></li>
         <li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
         <li><div>Custom:</div>
           <ul>

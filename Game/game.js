@@ -19,16 +19,30 @@ var game = (function() {
   var health = 100;
   var currentPower, powerName;
   var rand = Math.floor(Math.random() * 10);;
-
-
-
-
+  var pause = false;
+  var keyPress = null;
   var canMove = false;
   var delayInterval;
+  var canShoot = false;
+  var gameOver = false;
+
   function waitBeforeMove(stopTime) {
     canMove = false;
     setTimeout(function() {
       canMove = true;
+      if(keyPress === "up") {
+        moveUp();
+      }
+      else if(keyPress === "down") {
+        moveDown();
+      }
+      else if(keyPress === "left") {
+        moveLeft();
+      }
+      else if(keyPress === "right") {
+        moveRight();
+      }
+      keyPress = null;
     }, stopTime);
   }
   waitBeforeMove();
@@ -81,7 +95,15 @@ var game = (function() {
   }
 
   function findPowerUp(row, col){
-
+    if(health <= 0) {
+      $("#nameBox").html($("#playerName").val());
+      $("#finalScoreBox").html(count);
+      $("#finalTimeBox").html(finTime + " Seconds");
+      $("#endScreen").css("display", "block");
+      clearGrid();
+    }
+    notify();
+    
     if(grid[activerow+row][activecol+col] === 1){
       heli.play();
       powerImage = 'images/helicopter.gif';
@@ -115,7 +137,7 @@ var game = (function() {
       powerImage = 'images/explosion.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      health = (health - 15);
+      health = (health - 25);
       console.log("You encounter an explosion! , you lost 15hp!\nCurrent health is: " + health)
       stopTime = 1000;
       count-=3;
@@ -134,10 +156,11 @@ var game = (function() {
         health = (health + (100-health));
       }
       stopTime = 500;
-      count+=1;
+      count+=2;
     }
     else if(grid[activerow+row][activecol+col] === 4){
       sand.play();
+      health = (health - 5);
       powerImage = 'images/quicksand.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
@@ -179,15 +202,12 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Sniper_rifle";
 
-      //todo
-
       stopTime = 500;
       count+=2;
-      count++;
+      canShoot = true;
     }
 
       /* 4/15/17 SF inserts end here */
-
     else if(grid[activerow+row][activecol+col] === null) {
       stopTime = 500;
     }
@@ -199,7 +219,7 @@ var game = (function() {
   // Variable to slow movement ( linked timeout function )
   var moveTimeOut;
   function moveLeft() {
-  if(canMove){
+    if(canMove){
       if (activerow !== null && activecol !== null && activecol-1 >= 0 && activecol-1 <= 9 && grid[activerow][activecol-1] !== true) {
         findPowerUp(0, -1);
         grid[activerow][activecol] = null;
@@ -211,10 +231,13 @@ var game = (function() {
         notify();
       }
     }
+    else {
+      keyPress = "left";
+    }
   }
 
   function moveRight() {
-  if(canMove){
+    if(canMove){
       if (activerow !== null && activecol !== null && activecol+1 >= 0 && activecol+1 <= 9 && grid[activerow][activecol+1] !== true) {
         findPowerUp(0, 1);
         grid[activerow][activecol] = null;
@@ -226,6 +249,9 @@ var game = (function() {
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
+    }
+    else {
+      keyPress = "right";
     }
   }
 
@@ -243,7 +269,7 @@ var game = (function() {
         console.log(powerName + " THIS IS CURRENT POWER");
         if(activerow === 14) {
           clearGrid();
-          console.log($("#foodName").val())
+          gameOver = true;
           $("#nameBox").html($("#playerName").val());
           $("#finalScoreBox").html(count);
           $("#finalTimeBox").html(finTime + " Seconds");
@@ -252,10 +278,16 @@ var game = (function() {
         notify();
       }
     }
+    else {
+      keyPress = "down";
+    }
   }
 
   function moveUp() {
-  if(canMove){
+    if(!canMove){
+      keyPress = "up";
+    }
+    else {
       if (activerow !== null && activecol !== null && activerow-1 >= 0 && activerow-1 <= 14 && grid[activerow-1][activecol] !== true) {
         findPowerUp(-1, 0);
         grid[activerow][activecol] = null;
@@ -267,11 +299,12 @@ var game = (function() {
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
+
     }
   }
 
-
   function shoot() {
+    if(canShoot) {
       bullet.play();
       var bulletRow = activerow;
       var bulletCol = activecol;
@@ -303,7 +336,10 @@ var game = (function() {
             bulletRow++;
             notify();
           }
+          canshoot = false;
       }, 250);
+    }
+    canShoot = false;
   }
 
   function randomPiece(num) {
@@ -404,7 +440,6 @@ var game = (function() {
       }
     }
   }
-
 
   var listeners = [];
   function addListener(cb) {
