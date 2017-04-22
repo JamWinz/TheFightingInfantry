@@ -1,6 +1,4 @@
 
-
-
 var game = (function() {
 
   console.log("Initilizing game.js");
@@ -11,7 +9,6 @@ var game = (function() {
   var bullet = new Audio('sounds/bullet.wav');
   var heal = new Audio('sounds/Heal8-Bit.ogg');
   var gren = new Audio('sounds/Bomb_Exploding.wav')
-
   var finTime = 0;
   // Counts the score
   var count = 0;
@@ -24,6 +21,9 @@ var game = (function() {
   var canMove = false;
   var delayInterval;
   var canShoot = false;
+  var gameOver = false;
+  var currGif = null;
+  var prevGif = null;
   var gameOver = false;
 
   function waitBeforeMove(stopTime) {
@@ -79,10 +79,8 @@ var game = (function() {
     return health;
   }
 
-
   var activerow = null;
   var activecol = null;
-
   var enemyrow = null;
   var enemycol = null;
 
@@ -94,17 +92,24 @@ var game = (function() {
     createEnemy(14, rand);
   }
 
-  function findPowerUp(row, col){
-    if(health <= 0) {
-      $("#nameBox").html($("#playerName").val());
-      $("#finalScoreBox").html(count);
-      $("#finalTimeBox").html(finTime + " Seconds");
-      $("#endScreen").css("display", "block");
-      clearGrid();
-    }
+  function getGif() {
     notify();
-    
-    if(grid[activerow+row][activecol+col] === 1){
+    return currGif;
+  }
+
+  function getFinTime() {
+    return finTime;
+  }
+
+  function getGameOver() {
+    return gameOver;
+  }
+
+  function findPowerUp(row, col) {
+    notify();
+    if(grid[activerow+row][activecol+col] === 1) {
+      currGif = 1;
+      prevGif = 1;
       heli.play();
       powerImage = 'images/helicopter.gif';
       powerClass = 'scaledPower'
@@ -120,19 +125,16 @@ var game = (function() {
         grid[activerow][activecol] = 0;
         findPowerUp(1, 0)
       }
-      // THIS CODE IS BROKEN (IF HELICOPTER IS ON THE 2ND TO LAST ROW)
 
-      else if(activerow+2 === 14) {
+      else if(activerow+2 === 13) {
         grid[activerow][activecol] = null;
         grid[14][activecol] = 0;
         findPowerUp(1, 0)
       }
-      else {
-        // Helicopter was on last row
-      }
-      count++;
+      count+=2;
     }
-    else if(grid[activerow+row][activecol+col] === 2){
+    else if(grid[activerow+row][activecol+col] === 2) {
+      currGif = 2;
       explo.play();
       powerImage = 'images/explosion.gif';
       powerClass = 'scaledPower'
@@ -142,7 +144,8 @@ var game = (function() {
       stopTime = 1000;
       count-=3;
     }
-    else if(grid[activerow+row][activecol+col] === 3){
+    else if(grid[activerow+row][activecol+col] === 3) {
+      currGif = 3;
       heal.play();
       powerImage = 'images/health.png';
       powerClass = 'scaledPower'
@@ -156,9 +159,10 @@ var game = (function() {
         health = (health + (100-health));
       }
       stopTime = 500;
-      count+=2;
+      count+=3;
     }
-    else if(grid[activerow+row][activecol+col] === 4){
+    else if(grid[activerow+row][activecol+col] === 4) {
+      currGif = 4;
       sand.play();
       health = (health - 5);
       powerImage = 'images/quicksand.png';
@@ -167,14 +171,10 @@ var game = (function() {
       powerName = "Quicksand";
       clearInterval(delayInterval);
       stopTime = 2000;
-      count-=1;
+      count-=2;
     }
-    else if(grid[activerow+row][activecol+col] === 5){
-
-      // this powerup takes away 2 points and throws the grenade to the right of the screen
-      // TO DO: read the position of the grenade and move it instead of it showing at top of the screen
-      // this powerup has a bug if it is the first powerup to be grabbed
-
+    else if(grid[activerow+row][activecol+col] === 5) {
+      currGif = 5;
       gren.play();
       powerImage = 'images/grenade.png';
       powerClass = 'scaledPower'
@@ -182,34 +182,33 @@ var game = (function() {
       powerName = "Grenade";
       playerTimeOut = 0;
 
-      /* 4/15/17 SF inserts */
-
-
-      $(document).ready(function(e) {
-          var width = "+=" + $(document).width();
-          $("#animate").animate({
-          left: width
-        }, 5000, function() {
-          $("#animate").css("display", "none");
-        });
-      });
       count-=2;
+      stopTime = 500;
     }
     else if(grid[activerow+row][activecol+col] === 6){
-      // this powerup gives you +2 points and it changes Bob's image
+      currGif = 6;
       powerImage = 'images/Sniper_Rifle2.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Sniper_rifle";
 
       stopTime = 500;
-      count+=2;
+      count+=3;
       canShoot = true;
     }
-
-      /* 4/15/17 SF inserts end here */
-    else if(grid[activerow+row][activecol+col] === null) {
+    else if(grid[activerow+row][activecol+col] === null && prevGif === 1) {
+      currGif = 1;
+      prevGif = null;
       stopTime = 500;
+    }
+    else if(grid[activerow+row][activecol+col] === null) {
+      currGif = null;
+      stopTime = 500;
+    }
+
+    if(activerow === 13) {
+      console.log("Welcome to the end my friend.");
+      gameOver = true;
     }
 
     console.log("PLAYER TIMEOUT: " + stopTime);
@@ -226,7 +225,6 @@ var game = (function() {
         activecol--;
         grid[activerow][activecol] = 0;
         waitBeforeMove(stopTime);
-        //console.log(activecol)
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
@@ -244,8 +242,6 @@ var game = (function() {
         activecol++;
         grid[activerow][activecol] = 0;
         waitBeforeMove(stopTime);
-        //console.log(activecol)
-        //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
@@ -264,17 +260,7 @@ var game = (function() {
         //clearInterval(moveInterval);
         grid[activerow][activecol] = 0;
         waitBeforeMove(stopTime);
-        //console.log(activerow);
-        //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
-        if(activerow === 14) {
-          clearGrid();
-          gameOver = true;
-          $("#nameBox").html($("#playerName").val());
-          $("#finalScoreBox").html(count);
-          $("#finalTimeBox").html(finTime + " Seconds");
-          $("#endScreen").css("display", "block");
-        }
         notify();
       }
     }
@@ -294,12 +280,9 @@ var game = (function() {
         activerow--;
         grid[activerow][activecol] = 0;
         waitBeforeMove(stopTime);
-        //console.log(activerow)
-        //$('#powerUpBox').addClass('player').html(currentPower);
         console.log(powerName + " THIS IS CURRENT POWER");
         notify();
       }
-
     }
   }
 
@@ -314,14 +297,13 @@ var game = (function() {
           // While the bullet falls we cannot move
           if (bulletRow < 14) {
               canMove = false;
-              //waitBeforeMove(3000)
               bulletRow++;
               grid[bulletRow][bulletCol] = 9;
               console.log("Bullet is in row " + bulletRow);
               notify();
               grid[bulletRow][bulletCol] = null;
 
-              if(grid[bulletRow][bulletCol] === grid[enemyrow][enemycol]){
+              if(grid[bulletRow][bulletCol] === grid[enemyrow][enemycol]) {
                 console.log("Bullet collision with enemy");
                 count += 10;
                 rand = Math.floor(Math.random() * 10);
@@ -362,7 +344,6 @@ var game = (function() {
     }
 
   function createBlock(row, col){
-    //  $('#score').text(updateScore());
     loadPowerups();
     activerow = row;
     activecol = col;
@@ -388,19 +369,15 @@ var game = (function() {
     var enemyInterval = setInterval(function() {
       enemyDir = Math.floor(Math.random() * 3);
       if (enemyrow === 0) {
-
         // we reached the bottom
         clearInterval(enemyInterval);
         if (enemyrow !== 16) {
           // Increase fallspeed based on these conditions
           enemySpeed = 500; // 1000000000
-          count-=1;
+          count-=5;
           console.log(enemyrow)
           createEnemy(14, 5);
           console.log("Enemy speed is " + enemySpeed)
-        }
-        else{
-          //$('#gameover').text("GAME OVER");
         }
       }
       else {
@@ -436,7 +413,6 @@ var game = (function() {
     for(var i = 14; i >= 0; i--) {
       for(var j = 10; j >= 0; j--) {
         grid[i][j] = null;
-
       }
     }
   }
@@ -450,7 +426,7 @@ var game = (function() {
   function notify() {
     for(var i = 0; i < listeners.length; i++){
       var cb = listeners[i];
-      cb(grid, count, currentPower);
+      cb(grid, count, currentPower, health, gameOver, finTime);
     }
   }
 
@@ -468,6 +444,9 @@ var game = (function() {
     setHealthBar: setHealthBar,
     getHealthBar: getHealthBar,
     shoot: shoot,
-    clearGrid, clearGrid
+    clearGrid: clearGrid,
+    getGif: getGif,
+    getGameOver, getGameOver,
+    getFinTime, getFinTime
   };
 })();

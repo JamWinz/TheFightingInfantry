@@ -1,25 +1,29 @@
-/*4/15/17 SF inserts*/
 #animate {
-    position: relative;
-    display: none
-    border: 1px solid green;
-    background: transparent;
-    width: 0px;
-    height: 0px;
-
+  margin-left: 380px;
+  margin-top: 160px;
+  position: absolute;
+  z-index: 3;
+  height: 200px;
+  width: 300px;
+  display: none;
 }
 
-#animate2 {
-    background-image: url("images/grenade.png");
-    position: relative;
-    border; 1px solid green;
-    background: transparent;
-    width: 0px;
-    height: 0px;
-
+#ani {
+  z-index: 3;
+  position: absolute;
+  margin-left: 395px;
+  margin-top: 305px;
 }
-/*4/15/17 SF inserts end here*/
 
+#bigpicture3 {
+  margin-left: 280px;
+  margin-top: 160px;
+  position: absolute;
+  z-index: 3;
+  height: 200px;
+  width: 300px;
+  display: none;
+}
 
 .bobimg{
   width: 50%;
@@ -42,9 +46,16 @@
 }
 
 .powerdown {
+  display: none;
   width: 80%;
   height: 80%;
   }
+
+  .fire {
+    display: block;
+    width: 80%;
+    height: 80%;
+    }
 
 .scaledPower {
   margin-left: 6px;
@@ -69,7 +80,6 @@ td {
  color: black;
 }
 
-
 #endScreen {
 
 }
@@ -85,6 +95,8 @@ td {
 }
 
 #finalName {
+ color: white;
+ text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px black, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px black;
  margin-left: 340px;
  margin-top: 70px;
 }
@@ -103,6 +115,8 @@ td {
 }
 
 #finalScore {
+  color: white;
+  text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px black, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px black;
  margin-left: 340px;
  margin-top: 170px;
 }
@@ -117,6 +131,8 @@ td {
 }
 
 #finalTime {
+color: white;
+text-shadow: 0 0 5px black, 0 0 10px black, 0 0 35px black, 0 0 20px black, 0 0 30px black, 0 0 40px black, 0 0 50px black, 0 0 75px black;
  margin-left: 340px;
  margin-top: 270px;
 }
