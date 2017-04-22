@@ -11,6 +11,7 @@
   <script>
     $(function() {
       var playerName;
+      var char;
       var startButton = 0;
       var health = game.getHealthBar();
 
@@ -39,7 +40,48 @@
         else if(e.keyCode == 88){ // Shoot bullet
           game.shoot();
         }
+
+        // Game Over
+        /*if (game.getHealthBar() <= 0 || game.getGameOver() === true) {
+          $("#nameBox").html($("#playerName").val());
+          $("#finalScoreBox").html(game.updateScore());
+          $("#finalTimeBox").html(" Seconds");
+          $("#endScreen").css("display", "block");
+          game.clearGrid();
+        }*/
       });
+
+      $("body").keyup(function(e) {
+        console.log(":DDDDDDDDDD " + game.getGif())
+        if(game.getGif() === 1) {
+          $('#bigpicture3').css("content", "url(images/helicopter.gif)")
+        }
+        else if(game.getGif() === 2) {
+          $('#bigpicture3').css("content", "url(images/explosion.gif)")
+        }
+        else if(game.getGif() === 3) {
+          $('#bigpicture3').css("content", "url(images/health.png)")
+        }
+        else if(game.getGif() === 4) {
+          $('#bigpicture3').css("content", "url(images/quicksand.png)")
+        }
+        else if(game.getGif() === 5) {
+          $('#bigpicture3').css("content", "url(images/grenade.png)")
+        }
+        else if(game.getGif() === 6) {
+          $('#bigpicture3').css("content", "url(images/Sniper_Rifle2.png)")
+        }
+        else if(game.getGif() === null) {
+          $('#bigpicture3').css("display", "none")
+        }
+        if(game.getGif() !== null) {
+        $("#bigpicture3").css("display", "block");
+        setTimeout(function() {
+          $("#bigpicture3").css("display", "none");
+        }, 1000);
+      }
+    });
+
 
       // Player starting hp (Creates 100% health, the if statement uses change to change the health based on powerup/down)
       $( "#progressbar" ).progressbar({
@@ -72,7 +114,6 @@
             change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
           }).height(25).width(200);
         }
-
         // Game over
         else {
         //  $("#endScreen").css("display", "block"),
@@ -134,7 +175,14 @@
         }
       });
 
-      game.addListener(function(grid, score, currentPower) {
+      game.addListener(function(grid, score, currentPower, health, gameOver, finTime) {
+        if (health <= 0 || gameOver === true) {
+          $("#nameBox").html($("#playerName").val());
+          $("#finalScoreBox").html(game.updateScore());
+          $("#finalTimeBox").html(finTime + " Seconds");
+          $("#endScreen").css("display", "block");
+          game.clearGrid();
+        }
         // Updates Scores
         $("#score").html(score);
         // Updates Health
@@ -149,7 +197,7 @@
 
           $("#grd").append("<tr>")
           for(var c = 0; c < ncol; c++) {
-            var chr = "";
+            chr = "";
             var imgid = "";
             var rdigit = "" + r;
             var cdigit = "" + c;
@@ -166,7 +214,6 @@
               imgid = "bobimg";
             }
             else if(grid[r][c] === 1) {
-
               chr = "images/helicopter.gif";
               imgid = "helicopterup";
               $("#powerUpBox").html(currentPower);
@@ -192,22 +239,19 @@
               imgid = "powerdown";
               $("#powerUpBox").html(currentPower);
             }
-
             else if(grid[r][c] === 6) {
               chr = "images/Sniper_Rifle2.png";
               imgid = "helicopterup";
               $("#powerUpBox").html(currentPower);
             }
-
             else if(grid[r][c] === 8) {
               chr = "images/enemy.gif";
               imgid = "bobimg";
             }
             else if(grid[r][c] === 9) {
               chr = "images/TorchFlamesFierce.gif-c200";
-              imgid = "powerdown";
+              imgid = "fire";
             }
-
             $("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
             //$("#grd").append("<td>" + "<img class='" + imgid + "' src='" + chr + "'>" + "</td>")
           }
@@ -244,9 +288,6 @@
         $("#imgInp").change(function(){
           readURL(this);
         });
-
-        //$("table").css("background-image", 'imgInp');
-        //console.log("Changed Image " + imgInp.toString());
       }
     }
 
@@ -261,27 +302,15 @@
         }
         reader.readAsDataURL(input.files[0]);
       }
-      //console.log("Changed Image " + $('#imgInp').attr('src'));
-      //$("table").css("background-image", $('#imgInp').attr('src'));
     }
-
     $("#imgInp").change(function(){
       readURL(this);
     });
-
   </script>
 </head>
 <body>
-  <!--4/15/17 SF inserts  -->
-  <div id="animate"><img id="grenade" src="images/grenade.png" style="z-index:3" width="20px" alt="" ></div>
-
-    <!--4/15/17 inserts end here   -->
-
   <!-- Menu -->
-
-
   <div id="screenBorder">
-
     <h2 id="title">The Fighting Infantry</h2>
     <!--Start Game-->
     <div id="startScreen">
@@ -306,6 +335,12 @@
       <div id="endGif" style="z-index:2"><img src="images/armymen.gif" alt="" style="width:300px;height:200px;"></div>
     </div>
 
+
+    <!--Powerup image-->
+    <div id="bigpicture3" style="z-index:3">
+      <div style="z-index:3"><img src="" style="width:300px;height:200px;"></div>
+    </div>
+
     <div id="gameBorder">
       <table id="grd" style="z-index:1" background="image3.jpg"></table>
     </div>
@@ -323,7 +358,6 @@
     <div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px">Start</button></div>
     <!-- This is to include an image in button -->
     <!--<div id="buttonDiv"><button id="button" class="ui-button ui-corner-all ui-widget" style="height:150px;width:150px"><img id="button" src="images/Lauch_Button.png"></button></div>-->
-
     <!-- Change Background -->
     <div id="backgroundSelect">
       <h2>Background:</h2>
@@ -334,7 +368,6 @@
         <li><div id="bgr4" href="javascript:void(0)" onclick="changedBackground(4)">Candy Land</div></li>
         <li><div>Custom:</div>
           <ul>
-            <!--<li><input type='file' id="imgInp" /><div id="bgr5" href="javascript:void(0)" onclick="changedBackground(5)">Choose File</div></li>-->
             <li><input type='file' id="imgInp" onclick="changedBackground(5)"><br>Use This Image</li>
           </ul>
         </li>
