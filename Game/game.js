@@ -8,7 +8,10 @@ var game = (function() {
   var sand = new Audio('sounds/sand.wav');
   var bullet = new Audio('sounds/bullet.wav');
   var heal = new Audio('sounds/Heal8-Bit.ogg');
-  var gren = new Audio('sounds/Bomb_Exploding.wav')
+  var gren = new Audio('sounds/Bomb_Exploding.wav');
+  var eject_clip = new Audio('sounds/Eject_Clip.wav');
+  var ak47 = new Audio('sounds/AK47.wav');
+  var gun_empty = new Audio('sounds/Gun+Empty.wav');
   var finTime = 0;
   // Counts the score
   var count = 0;
@@ -188,6 +191,7 @@ var game = (function() {
     }
     else if(grid[activerow+row][activecol+col] === 6){
       currGif = 6;
+      eject_clip.play();
       powerImage = 'images/Sniper_Rifle2.png';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
@@ -304,7 +308,7 @@ var game = (function() {
 
   function shoot() {
     if(canShoot) {
-      bullet.play();
+      ak47.play();
       var bulletRow = activerow;
       var bulletCol = activecol;
       var destroyedPower;
@@ -346,6 +350,7 @@ var game = (function() {
       }, 250);
     }
     else{
+      gun_empty.play();
       currGif = 7;
     }
     canShoot = false;
