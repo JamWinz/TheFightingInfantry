@@ -169,7 +169,7 @@ var game = (function() {
       currGif = 4;
       sand.play();
       health = (health - 5);
-      powerImage = 'images/quicksand.png';
+      powerImage = 'images/quicksand.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Quicksand";
