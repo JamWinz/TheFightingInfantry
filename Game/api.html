@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://cmdipie.it.pointpark.edu/api/ -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="apistyle.css">
+</head>
+<body>
+  <h1 id="title">The Fighting Infantry</h1>
+  <p id="desc">This game is about using directional movement to navigate the board before the opponent reaches the player's goal line. Using the the direction keys, and either<br> getting Powerups or Powerdowns, will determine the speed or life of the player. </p>
+
+    <table id="table">
+      <tr> <th>Function</th> <th>Parameters</th> <th>Return Value</th> <th>Description</th> </tr>
+      <tr> <td><b>createGrid()</b> </td> <td>row, col</td> <td>N/A</td> <td>Creates the grid dynamicly based on parameters passed.</td> </tr>
+      <tr> <td><b>startGame()</b> </td> <td>N/A</td> <td>N/A</td> <td>Starts the game.</td> </tr>
+      <tr> <td><b>updateScore()</b> </td> <td>N/A</td> <td>count.toString();</td> <td>Updates the score (Increment/Decrement).</td> </tr>
+      <tr> <td><b>clearRow()</b> </td> <td>N/A</td> <td>N/A</td> <td>Emptys the grids contents.</td> </tr>
+      <tr> <td><b>randomPiece()</b> </td> <td>N/A</td> <td>rng</td> <td>Fills each tile with a random piece (powerup/down).</td> </tr>
+      <tr> <td><b>loadPowerups()</b> </td> <td>N/A</td> <td>N/A</td> <td>Spawns the randomly generated powerups from randompiece onto the grid.</td> </tr>
+      <tr> <td><b>findPowerup()</b> </td> <td>N/A</td> <td>N/A</td> <td>Consumes powerup the player steps on, and places affect on player.</td> </tr>
+      <tr> <td><b>moveLeft()</b> </td> <td>N/A</td> <td>N/A</td> <td>Moves character left.</td> </tr>
+      <tr> <td><b>moveRight()</b> </td> <td>N/A</td> <td>N/A</td> <td>Moves character right.</td> </tr>
+      <tr> <td><b>moveDown()</b> </td> <td>N/A</td> <td>N/A</td> <td>Moves character down.</td> </tr>
+      <tr> <td><b>moveUp()</b> </td> <td>N/A</td> <td>N/A</td> <td>Moves character up.</td> </tr>
+      <tr> <td><b>createBlock()</b> </td> <td>row, col</td> <td>N/A</td> <td>Creates player character</td> </tr>
+      <tr> <td><b>createEnemy()</b> </td> <td>row, col, enemySpeed</td> <td>N/A</td> <td>Spawns an enemy. A new one is generated when current reaches end of grid, or killed.</td> </tr>
+      <tr> <td><b>enemyMove()</b> </td> <td>N/A</td> <td>hPos</td> <td>decides on which random direction enemy will move in next.</td> </tr>
+      <tr> <td><b>setEnemySpeed()</b> </td> <td>enemySpeed</td> <td>N/A</td> <td>Sets a new speed for the enemy.</td> </tr>
+      <tr> <td><b>getEnemySpeed()</b> </td> <td>N/A</td> <td>enemySpeed</td> <td>Returns the value of the enemys current speed.</td> </tr>
+      <tr> <td><b>setHealthBar()</b> </td> <td>health2</td> <td>N/A</td> <td>Sets current health for player.</td> </tr>
+      <tr> <td><b>getHealthBar()</b> </td><td>N/A</td> <td>health</td> <td>Gets current health.</td> </tr>
+      <tr> <td><b>shoot()</b> </td> <td>N/A</td> <td>N/A</td> <td>Shoots a bullet across the screen when player presses X button and has the gun powerup, bullet will kill enemy if collides.</td> </tr>
+      <tr> <td><b>getGif()</b> </td><td>N/A</td> <td>currentGIF</td> <td>Returns current gif to display on screen.</td> </tr>
+      <tr> <td><b>getGameOver()</b> </td><td>N/A</td> <td>gameOver</td> <td>Returns gameOver, if gameOver = true then show end screen.</td> </tr>
+      <tr> <td><b>getFinTime()</b> </td><td>N/A</td> <td>finTime</td> <td>Calculate how long the player took to finish the game.</td> </tr>
+
+    </table>
+
+    <div id="startGif" style="z-index:2"><img id="tankImg" src="tank.gif" alt="" ></div>
+
+
+
+
+</body>
+</html>

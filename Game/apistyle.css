@@ -1,0 +1,49 @@
+body {
+  background-color: lightgrey;
+}
+
+#startGif {
+  margin-left: 600px;
+  margin-top: 80px;
+}
+
+#desc {
+  font-weight: bold;
+  text-align: center;
+}
+
+#title {
+  color: green;
+  margin-left: 525px;
+  font-family: sans-serif;
+  letter-spacing: 5px;
+  font-weight: bold;
+}
+
+#table {
+  margin-left: 65px;
+  margin-top: 50px;
+}
+
+#td, th{
+  width: 300px;
+}
+
+#table, th, td  {
+  vertical-align: middle;
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+th{
+  background-color: white;
+}
+
+tr:nth-child(odd) {
+  background-color: lightblue;
+}
+
+tr:nth-child(even) {
+  background-color: lightgreen;
+}
