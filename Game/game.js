@@ -21,7 +21,6 @@ var game = (function() {
   var canMove = false;
   var delayInterval;
   var canShoot = false;
-  var gameOver = false;
   var currGif = null;
   var prevGif = null;
   var gameOver = false;
@@ -86,7 +85,9 @@ var game = (function() {
 
   function startGame() {
     setInterval(function() {
+      if(gameOver === false){
       finTime++;
+    }
     }, 1000);
     createBlock(0, 5);
     createEnemy(14, rand);
@@ -206,8 +207,7 @@ var game = (function() {
       stopTime = 500;
     }
 
-    if(activerow === 13) {
-      console.log("Welcome to the end my friend.");
+    if(activerow-1 === 13 || health <= 0) {
       gameOver = true;
     }
 
@@ -218,7 +218,11 @@ var game = (function() {
   // Variable to slow movement ( linked timeout function )
   var moveTimeOut;
   function moveLeft() {
-    if(canMove){
+    if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
+      count -= 5;
+      gameOver = true;
+    }
+    else if(canMove){
       if (activerow !== null && activecol !== null && activecol-1 >= 0 && activecol-1 <= 9 && grid[activerow][activecol-1] !== true) {
         findPowerUp(0, -1);
         grid[activerow][activecol] = null;
@@ -235,7 +239,11 @@ var game = (function() {
   }
 
   function moveRight() {
-    if(canMove){
+    if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
+      count -= 5;
+      gameOver = true;
+    }
+    else if(canMove){
       if (activerow !== null && activecol !== null && activecol+1 >= 0 && activecol+1 <= 9 && grid[activerow][activecol+1] !== true) {
         findPowerUp(0, 1);
         grid[activerow][activecol] = null;
@@ -252,7 +260,11 @@ var game = (function() {
   }
 
   function moveDown() {
-    if(canMove){
+    if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
+      count -= 5;
+      gameOver = true;
+    }
+    else if(canMove){
       if (activerow !== null && activecol !== null && activerow+1 >= 0 && activerow+1 <= 14 && grid[activerow+1][activecol] !== true) {
         var stopTime = findPowerUp(1, 0);
         grid[activerow][activecol] = null;
@@ -270,7 +282,11 @@ var game = (function() {
   }
 
   function moveUp() {
-    if(!canMove){
+    if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
+      count -= 5;
+      gameOver = true;
+    }
+    else if(!canMove){
       keyPress = "up";
     }
     else {
@@ -291,17 +307,25 @@ var game = (function() {
       bullet.play();
       var bulletRow = activerow;
       var bulletCol = activecol;
+      var destroyedPower;
       stopTime = 500;
       clearInterval(shootInterval);
       var shootInterval = setInterval(function() {
           // While the bullet falls we cannot move
           if (bulletRow < 14) {
+              currGif = 6;
               canMove = false;
               bulletRow++;
+              destroyedPower = grid[bulletRow][bulletCol];
               grid[bulletRow][bulletCol] = 9;
               console.log("Bullet is in row " + bulletRow);
               notify();
-              grid[bulletRow][bulletCol] = null;
+                if(destroyedPower !== 8) {
+                  grid[bulletRow][bulletCol] = destroyedPower;
+                }
+                else {
+                  grid[bulletRow][bulletCol] = null;
+                }
 
               if(grid[bulletRow][bulletCol] === grid[enemyrow][enemycol]) {
                 console.log("Bullet collision with enemy");
@@ -320,6 +344,9 @@ var game = (function() {
           }
           canshoot = false;
       }, 250);
+    }
+    else{
+      currGif = 7;
     }
     canShoot = false;
   }
@@ -371,7 +398,7 @@ var game = (function() {
       if (enemyrow === 0) {
         // we reached the bottom
         clearInterval(enemyInterval);
-        if (enemyrow !== 16) {
+        if (enemyrow !== 16 && gameOver === false) {
           // Increase fallspeed based on these conditions
           enemySpeed = 500; // 1000000000
           count-=5;
