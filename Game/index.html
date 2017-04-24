@@ -42,6 +42,7 @@
         }
       });
 
+      // Upon realsing the key we display the current power up
       $("body").keyup(function(e) {
         console.log("Current Gif " + game.getGif())
         if(game.getGif() === 1) {
@@ -117,23 +118,10 @@
 
       // Hover button color
       $("#button").mouseover(function() {
-          $("#button").css("background-image", src='images/Launch_Button.png');
-          if(startButton % 2 === 0 || startButton === 0){
-
-            $(this).css(src="images/Launch_Button.", "darkgreen");
-          }
-          else{
-            $(this).css("background-color", "red");
-          }
+            $(this).css("background-color", "darkgreen");
         });
         $("#button").mouseout(function() {
-
-          if(startButton % 2 === 0 || startButton === 0){
-            $(this).css("background-color", "green");
-          }
-          else{
-            $(this).css("background-color", "crimson");
-          }
+          $(this).css("background-color", "green");
         });
 
       $("#button").click(function() {
@@ -141,14 +129,13 @@
         if(startButton === 0){
           playerName = $("#playerName").val()
           currentHealth(health);
-          $('#button').text("Pause");
           $("#backgroundSelect").css("display", "none");
           $("#startScreen").css("display", "none");
           game.startGame(); //Make sure there is a mute button too!
           startButton++;
           console.log("GAME STARTED");
         }
-        else if(startButton % 2 !== 0){
+        /*else if(startButton % 2 !== 0){
           $('#button').text("Resume");
           game.setEnemySpeed(10000000000);
           game.getEnemySpeed(10000000000);
@@ -162,7 +149,7 @@
           game.getEnemySpeed(500);
           console.log("Game already in progress.");
           startButton++;
-        }
+        }*/
       });
 
       game.addListener(function(grid, score, currentPower, health, gameOver, finTime) {
