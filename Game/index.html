@@ -25,34 +25,25 @@
 
       // Key movements ( KEY DOWN )
       $("body").keydown(function(e) {
-        if(e.keyCode == 37) { // left
+        if(e.keyCode == 37 && game.getGameOver() === false) { // left
           game.moveLeft();
         }
-        else if(e.keyCode == 39) { // right
+        else if(e.keyCode == 39 && game.getGameOver() === false) { // right
           game.moveRight();
         }
-        else if(e.keyCode == 40){ // down
+        else if(e.keyCode == 40 && game.getGameOver() === false){ // down
           game.moveDown();
         }
-        else if(e.keyCode == 38){ // up
+        else if(e.keyCode == 38 && game.getGameOver() === false){ // up
           game.moveUp();
         }
-        else if(e.keyCode == 88){ // Shoot bullet
+        else if(e.keyCode == 88 && game.getGameOver() === false){ // Shoot bullet
           game.shoot();
         }
-
-        // Game Over
-        /*if (game.getHealthBar() <= 0 || game.getGameOver() === true) {
-          $("#nameBox").html($("#playerName").val());
-          $("#finalScoreBox").html(game.updateScore());
-          $("#finalTimeBox").html(" Seconds");
-          $("#endScreen").css("display", "block");
-          game.clearGrid();
-        }*/
       });
 
       $("body").keyup(function(e) {
-        console.log(":DDDDDDDDDD " + game.getGif())
+        console.log("Current Gif " + game.getGif())
         if(game.getGif() === 1) {
           $('#bigpicture3').css("content", "url(images/helicopter.gif)")
         }
@@ -71,6 +62,9 @@
         else if(game.getGif() === 6) {
           $('#bigpicture3').css("content", "url(images/Sniper_Rifle2.png)")
         }
+        else if(game.getGif() === 7) {
+          $('#bigpicture3').css("content", "url(images/reload.png)")
+        }
         else if(game.getGif() === null) {
           $('#bigpicture3').css("display", "none")
         }
@@ -81,7 +75,6 @@
         }, 1000);
       }
     });
-
 
       // Player starting hp (Creates 100% health, the if statement uses change to change the health based on powerup/down)
       $( "#progressbar" ).progressbar({
@@ -114,9 +107,7 @@
             change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'red'})}
           }).height(25).width(200);
         }
-        // Game over
         else {
-        //  $("#endScreen").css("display", "block"),
           $( "#progressbar" ).progressbar({
             value: health,
             change: function(event, ui) {$(this).find('.ui-widget-header').css({'background-color':'black'})}
@@ -145,7 +136,6 @@
           }
         });
 
-      //var player1 = true;
       $("#button").click(function() {
         //Controller for playing a move
         if(startButton === 0){
@@ -178,7 +168,7 @@
       game.addListener(function(grid, score, currentPower, health, gameOver, finTime) {
         if (health <= 0 || gameOver === true) {
           $("#nameBox").html($("#playerName").val());
-          $("#finalScoreBox").html(game.updateScore());
+          $("#finalScoreBox").html(score);
           $("#finalTimeBox").html(finTime + " Seconds");
           $("#endScreen").css("display", "block");
           game.clearGrid();
@@ -334,7 +324,6 @@
       <div id="finalTimeBox" style="z-index:2" class="endBox"></div>
       <div id="endGif" style="z-index:2"><img src="images/armymen.gif" alt="" style="width:300px;height:200px;"></div>
     </div>
-
 
     <!--Powerup image-->
     <div id="bigpicture3" style="z-index:3">
