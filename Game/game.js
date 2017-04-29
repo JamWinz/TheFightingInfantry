@@ -1,5 +1,6 @@
 
 var game = (function() {
+
   console.log("Initilizing game.js");
   // Audio
   var explo = new Audio('sounds/explosion.wav');
@@ -11,24 +12,22 @@ var game = (function() {
   var eject_clip = new Audio('sounds/Eject_Clip.wav');
   var ak47 = new Audio('sounds/AK47.wav');
   var gun_empty = new Audio('sounds/Gun+Empty.wav');
-
-  var finTime = 0; // Holds time player took to beat the game in seconds
-  var count = 0; // Counts the score
-  var enemySpeed = 750; // enemy speed
-  var health = 100; // Player hp
+  var finTime = 0;
+  // Counts the score
+  var count = 0;
+  var enemySpeed = 750;
+  var health = 100;
   var currentPower, powerName;
-  var rand = Math.floor(Math.random() * 10);
+  var rand = Math.floor(Math.random() * 10);;
   var pause = false;
-  var keyPress = null; // Holds current key press
-  var canMove = false; // Check if player is able to move
+  var keyPress = null;
+  var canMove = false;
   var delayInterval;
-  var canShoot = false; // Check if player is able to shoot
-  var currGif = null; // holds the current image to be displayed based on power up
-  var prevGif = null; // stores the previous gif displayed
-  var gameOver = false; // is true when game is finished
+  var canShoot = false;
+  var currGif = null;
+  var prevGif = null;
+  var gameOver = false;
 
-
-  // This function is on an interval that changes (stopTime) depending on the powerup/down the player steps on
   function waitBeforeMove(stopTime) {
     canMove = false;
     setTimeout(function() {
@@ -50,7 +49,6 @@ var game = (function() {
   }
   waitBeforeMove();
 
-  // Dynamically created grid
   function createGrid(nrow, ncol) {
     grid = [];
     grid.length = nrow;
@@ -61,39 +59,33 @@ var game = (function() {
     notify();
   }
 
-  // Turn score variable in a string to be displayed
   function updateScore() {
     return count.toString();
   }
 
-  // Set the Enemy Speed
+  // Enemy Speed
   function setEnemySpeed(enemySpeed2) {
     enemySpeed = enemySpeed2;
   }
 
-  // Get the Enemy Speed
   function getEnemySpeed(){
     return enemySpeed;
   }
 
-  // Set Health Bar
+  // Health Bar
   function setHealthBar(health2) {
     health = health2;
   }
 
-  // Get Health Bar
   function getHealthBar(){
     return health;
   }
 
-  // Player & Enemy start as null
   var activerow = null;
   var activecol = null;
   var enemyrow = null;
   var enemycol = null;
 
-
-  // Function that starts such features as counting time, creating player and enemy objects
   function startGame() {
     setInterval(function() {
       if(gameOver === false){
@@ -104,26 +96,21 @@ var game = (function() {
     createEnemy(14, rand);
   }
 
-  // Sends current gif to index
   function getGif() {
     notify();
     return currGif;
   }
 
-  // Sends time player took to finish came to index
   function getFinTime() {
     return finTime;
   }
 
-  // Returns false if game is in progress / true otherwise
   function getGameOver() {
     return gameOver;
   }
 
-  // Powerups/Downs
   function findPowerUp(row, col) {
     notify();
-    // Helicopter
     if(grid[activerow+row][activecol+col] === 1) {
       currGif = 1;
       prevGif = 1;
@@ -133,7 +120,7 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Helicopter";
       stopTime = 0;
-      // Sends player down 2 blocks
+
       if(activerow+2 < 14) {
         console.log("You board the helicopter, you sail forward 2 tiles.")
         grid[activerow+row][activecol+col] = null;
@@ -142,7 +129,7 @@ var game = (function() {
         grid[activerow][activecol] = 0;
         findPowerUp(1, 0)
       }
-      // If player is close to the end (2 blocks or less then the helicopter does not perform the 2 block jump)
+
       else if(activerow+2 === 13) {
         grid[activerow][activecol] = null;
         grid[14][activecol] = 0;
@@ -150,19 +137,17 @@ var game = (function() {
       }
       count+=2;
     }
-    // Explosion
     else if(grid[activerow+row][activecol+col] === 2) {
       currGif = 2;
       explo.play();
       powerImage = 'images/explosion.gif';
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      health = (health - 25); // Lost 25hp
+      health = (health - 25);
       console.log("You encounter an explosion! , you lost 15hp!\nCurrent health is: " + health)
       stopTime = 1000;
       count-=3;
     }
-    // Health
     else if(grid[activerow+row][activecol+col] === 3) {
       currGif = 3;
       heal.play();
@@ -170,7 +155,6 @@ var game = (function() {
       powerClass = 'scaledPower'
       console.log("You gain " + health + " hp!")
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
-      // If health is less than or equal to 90, simply give +10 hp
       if(health <= 90) {
       health = (health + 10);
     }
@@ -181,7 +165,6 @@ var game = (function() {
       stopTime = 500;
       count+=3;
     }
-    // Quicksand
     else if(grid[activerow+row][activecol+col] === 4) {
       currGif = 4;
       sand.play();
@@ -191,10 +174,9 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Quicksand";
       clearInterval(delayInterval);
-      stopTime = 2000; // Freeze player for 2 seconds
+      stopTime = 2000;
       count-=2;
     }
-    // Grenade
     else if(grid[activerow+row][activecol+col] === 5) {
       currGif = 5;
       gren.play();
@@ -203,10 +185,10 @@ var game = (function() {
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Grenade";
       playerTimeOut = 0;
+
       count-=2;
       stopTime = 500;
     }
-    // Rifle
     else if(grid[activerow+row][activecol+col] === 6){
       currGif = 6;
       eject_clip.play();
@@ -214,25 +196,25 @@ var game = (function() {
       powerClass = 'scaledPower'
       currentPower = "<td>" + "<img class='" + powerClass + "' src='" + powerImage + "'>" + "</td>"
       powerName = "Sniper_rifle";
+
       stopTime = 500;
       count+=3;
-      canShoot = true; // Player may shoot the gun
+      canShoot = true;
     }
-    // Ensures Helicopter gif if displayed correctly when you ride a helicopter to a null block
     else if(grid[activerow+row][activecol+col] === null && prevGif === 1) {
       currGif = 1;
       prevGif = null;
       stopTime = 500;
     }
-    // If no powerup then show nothing and set stopTime to default (500)
     else if(grid[activerow+row][activecol+col] === null) {
       currGif = null;
       stopTime = 500;
     }
-    // Game complete if player reaches the end, or health is 0
+
     if(activerow-1 === 13 || health <= 0) {
       gameOver = true;
     }
+
     console.log("PLAYER TIMEOUT: " + stopTime);
     return stopTime;
   }
@@ -240,7 +222,6 @@ var game = (function() {
   // Variable to slow movement ( linked timeout function )
   var moveTimeOut;
   function moveLeft() {
-    // If player collides with enemy
     if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
       count -= 5;
       gameOver = true;
@@ -262,7 +243,6 @@ var game = (function() {
   }
 
   function moveRight() {
-    // If player collides with enemy
     if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
       count -= 5;
       gameOver = true;
@@ -284,7 +264,6 @@ var game = (function() {
   }
 
   function moveDown() {
-    // If player collides with enemy
     if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
       count -= 5;
       gameOver = true;
@@ -307,7 +286,6 @@ var game = (function() {
   }
 
   function moveUp() {
-    // If player collides with enemy
     if(grid[activerow][activecol] === grid[enemyrow][enemycol]){
       count -= 5;
       gameOver = true;
@@ -327,9 +305,8 @@ var game = (function() {
       }
     }
   }
-  // Shot bullet
+
   function shoot() {
-    // If canshoot is true then we shoot
     if(canShoot) {
       ak47.play();
       var bulletRow = activerow;
@@ -343,21 +320,17 @@ var game = (function() {
               currGif = 6;
               canMove = false;
               bulletRow++;
-              // Store the powerup infront of the bullet in a variable
               destroyedPower = grid[bulletRow][bulletCol];
-              // Show bullet in cell
               grid[bulletRow][bulletCol] = 9;
               console.log("Bullet is in row " + bulletRow);
               notify();
-              // If NOT enemy, then once bullet has moved to next cell, we place the powerup stored in destroyedPower back into it's cell
                 if(destroyedPower !== 8) {
                   grid[bulletRow][bulletCol] = destroyedPower;
                 }
-                // If enemy, then kill enemy
                 else {
                   grid[bulletRow][bulletCol] = null;
                 }
-                // If bullet hit's enemy then kill enemy and spawn him at a random column in last row
+
               if(grid[bulletRow][bulletCol] === grid[enemyrow][enemycol]) {
                 console.log("Bullet collision with enemy");
                 count += 10;
@@ -376,22 +349,19 @@ var game = (function() {
           canshoot = false;
       }, 250);
     }
-    // If player has no ammo, show this with gif and play sound
     else{
       gun_empty.play();
       currGif = 7;
     }
-    // Shot has been completed and canShoot is now false
     canShoot = false;
   }
 
-  // Generate random number
   function randomPiece(num) {
     var rng = Math.floor(Math.random() * num);
     return rng;
   }
 
-  // 1 = Helicopter 2 = Explosion 3 = Health 4 == Heart 5 = Grenade, 6 = Rifle
+  // 1 = Helicopter 2 = Explosion 3 = Health 4 == Heart 5 = Grenade
   function loadPowerups() {
     var rngArr = [2, 5, null, 1, 1, 2, null, null, 4, null, 3, null, null, 6, 4, null, null, null, 4, null, null, null, null, 2, 2];
     for(var i = 0; i < 15; i++) {
@@ -405,7 +375,6 @@ var game = (function() {
       }
     }
 
-  // Create Player Object
   function createBlock(row, col){
     loadPowerups();
     activerow = row;
@@ -421,7 +390,6 @@ var game = (function() {
     }, enemySpeed);
   }
 
-  // Create enemy object
   function createEnemy(row, col){
     var enemyDir;
     enemyrow = row;
@@ -473,7 +441,6 @@ var game = (function() {
     }, enemySpeed);
   }
 
-  // Empty the grid
   function clearGrid() {
     for(var i = 14; i >= 0; i--) {
       for(var j = 10; j >= 0; j--) {
